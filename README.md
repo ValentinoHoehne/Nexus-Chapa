@@ -24,7 +24,8 @@ Tudo é HTML e CSS puro. O único JavaScript simula o envio do feedback e fecha 
 ## ✨ O que tem
 
 - Cabeçalho fixo com navegação por âncoras e menu mobile via `<details>`.
-- Hero assimétrico, tipografia-first: **NEXUS** domina e o slogan oficial vem logo abaixo.
+- Hero assimétrico, tipografia-first: **NEXUS** domina, o slogan oficial vem logo abaixo e atalhos numerados convidam às três prioridades.
+- Órbita lunar e campo de pontos discretos no hero, sem galhos, folhas ou flores.
 - Prioridades em destaque sobre painéis planos e recuados: Voz e Transparência, Esporte e Competição, Cultura e Entretenimento.
 - Outras propostas em índice discreto: Educação e Futuro, Bem-estar e Acolhimento e Período Noturno (complementar).
 - Contatos: Instagram da chapa e telefones de Esther Avelino e Igor Ryan, com link direto para ligação.
