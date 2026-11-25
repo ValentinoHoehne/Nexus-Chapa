@@ -42,16 +42,27 @@
   --accent: #C6A0CB;
   --accent-deep: #5D425C;
 
+  /* Floresta mística: musgo, luar lilás e pontos âmbar */
+  --moss: #4B6249;
+  --amber: #D4AA60;
+  --mist: rgba(198, 160, 203, 0.12);
+
   /* Gradientes da chapa: o do título é o mais intenso */
   --grad-title:
-    radial-gradient(60% 70% at 14% 18%, rgba(105, 55, 111, 0.42), transparent 70%),
-    radial-gradient(50% 60% at 86% 82%, rgba(61, 78, 63, 0.34), transparent 70%),
+    radial-gradient(circle at 78% 26%, rgba(212, 170, 96, 0.16) 0 1px, transparent 2px),
+    radial-gradient(circle at 22% 72%, rgba(212, 170, 96, 0.12) 0 1px, transparent 2px),
+    radial-gradient(70% 80% at 14% 18%, rgba(198, 160, 203, 0.3), transparent 70%),
+    radial-gradient(60% 70% at 86% 82%, rgba(75, 98, 73, 0.4), transparent 70%),
     linear-gradient(120deg, var(--green-dark) 0%, var(--bg) 48%, var(--purple-dark) 100%);
   --grad-a:
-    radial-gradient(60% 70% at 12% 20%, rgba(105, 55, 111, 0.16), transparent 70%),
+    radial-gradient(circle at 84% 18%, rgba(212, 170, 96, 0.12) 0 1px, transparent 2px),
+    radial-gradient(70% 80% at 12% 20%, rgba(198, 160, 203, 0.14), transparent 70%),
+    radial-gradient(50% 60% at 92% 78%, rgba(75, 98, 73, 0.18), transparent 70%),
     linear-gradient(120deg, var(--green-dark) 0%, var(--bg) 70%);
   --grad-b:
-    radial-gradient(60% 70% at 88% 80%, rgba(61, 78, 63, 0.22), transparent 70%),
+    radial-gradient(circle at 16% 24%, rgba(212, 170, 96, 0.12) 0 1px, transparent 2px),
+    radial-gradient(70% 80% at 88% 80%, rgba(75, 98, 73, 0.26), transparent 70%),
+    radial-gradient(50% 60% at 10% 16%, rgba(198, 160, 203, 0.12), transparent 70%),
     linear-gradient(120deg, var(--bg) 0%, var(--band) 55%, var(--purple-dark) 100%);
 
   --hairline: rgba(234, 223, 211, 0.12);
@@ -80,7 +91,9 @@ html {
 body {
   margin: 0;
   overflow-x: clip;
-  background: var(--bg);
+  background:
+    radial-gradient(80% 50% at 50% 0%, rgba(75, 98, 73, 0.1), transparent 70%),
+    var(--bg);
   color: var(--text);
   font-family: "Spectral", Georgia, "Times New Roman", serif;
   font-size: 15px;
@@ -171,8 +184,9 @@ h3 {
   inset: 0 0 auto;
   height: var(--header-h);
   z-index: 50;
-  background: rgba(24, 26, 27, 0.96);
-  border-bottom: 1px solid var(--hairline);
+  background: rgba(20, 26, 22, 0.96);
+  border-bottom: 1px solid rgba(198, 160, 203, 0.14);
+  box-shadow: 0 1px 18px rgba(0, 0, 0, 0.32);
 }
 
 .site-header__inner {
@@ -345,17 +359,45 @@ h3 {
   isolation: isolate;
 }
 
-/* Divisor de galhos e faixas alternadas sangrando na largura toda */
-.doc > section::after {
-  content: "";
+/* Todas as transições usam o componente <branch-divider> (floresta mística). */
+
+/* Divisor orgânico reutilizável: <branch-divider flip="x" variant="1"> */
+branch-divider {
+  --branch-divider-h: 56px;
+  position: relative;
+  display: block;
+  height: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+branch-divider .branch-divider__svg {
   position: absolute;
-  top: -16px;
+  top: calc(var(--branch-divider-h) / -2);
   left: 50%;
-  transform: translateX(-50%);
+  display: block;
   width: 100vw;
-  height: 32px;
-  background: url("assets/nexus-divider.svg") repeat-x center / 240px 32px;
-  opacity: 1;
+  height: var(--branch-divider-h);
+  transform: translateX(-50%);
+  overflow: visible;
+}
+
+.branch-divider__svg[data-flip="x"] {
+  transform: translateX(-50%) scaleX(-1);
+}
+
+.branch-divider__svg[data-flip="y"] {
+  transform: translateX(-50%) scaleY(-1);
+}
+
+.branch-divider__svg[data-flip="both"] {
+  transform: translateX(-50%) scale(-1);
+}
+
+@media (max-width: 560px) {
+  branch-divider {
+    --branch-divider-h: 44px;
+  }
 }
 
 .doc > section::before {
@@ -392,10 +434,12 @@ h3 {
   width: 24px;
   height: 2px;
   background: var(--accent);
+  box-shadow: 0 0 10px rgba(198, 160, 203, 0.45);
 }
 
 .section-index {
   color: var(--accent);
+  text-shadow: 0 0 12px rgba(198, 160, 203, 0.28);
   margin-bottom: 0;
   font-size: 13px;
   font-variant-numeric: tabular-nums;
@@ -560,6 +604,7 @@ h3 {
 .feedback-form {
   background: var(--surface-green);
   border: 1px solid var(--hairline);
+  box-shadow: inset 0 1px 0 var(--mist);
   border-radius: var(--radius-control);
   margin-top: 28px;
   margin-left: 12%;
@@ -666,7 +711,8 @@ h3 {
 
 /* Rodapé */
 .site-footer {
-  border-top: 1px solid var(--hairline);
+  border-top: 1px solid rgba(198, 160, 203, 0.14);
+  background: linear-gradient(180deg, rgba(75, 98, 73, 0.08), transparent);
   padding: 24px 0;
   color: var(--text-muted);
   font-size: 12px;
