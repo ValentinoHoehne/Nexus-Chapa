@@ -318,15 +318,26 @@ h3 {
   text-align: left;
 }
 
-/* CTA principal acima da dobra, repetido no rodapé */
+/* CTA do título: mais discreto, acompanha o ritmo do texto */
 .btn.hero-cta {
   align-self: flex-start;
-  min-height: 40px;
-  margin-top: 32px;
+  min-height: 0;
+  margin-top: 24px;
   margin-left: 12%;
-  padding: 9px 18px;
-  border-color: var(--accent);
-  font-size: 13px;
+  padding: 0 0 2px;
+  border: 0;
+  border-bottom: 1px solid var(--accent);
+  border-radius: 0;
+  background: transparent;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.btn.hero-cta:hover {
+  background: transparent;
+  color: var(--text);
+  border-bottom-color: var(--text);
 }
 
 .doc > section {
