@@ -319,7 +319,7 @@ h3 {
   isolation: isolate;
 }
 
-/* Barra roxa e faixas alternadas sangrando na largura toda */
+/* Divisor de galhos e faixas alternadas sangrando na largura toda */
 .doc > section::after {
   content: "";
   position: absolute;
@@ -329,7 +329,7 @@ h3 {
   width: 100vw;
   height: 24px;
   background: url("assets/nexus-divider.svg") repeat-x center / 240px 24px;
-  opacity: 0.85;
+  opacity: 1;
 }
 
 .doc > section::before {
