@@ -15,17 +15,18 @@ Página estática de apresentação do grêmio estudantil NEXUS. Direta ao ponto
 
 ## 🌿 A ideia
 
-O visual segue o conceito **Lunar Forest**: carvão violetado, superfícies em roxo profundo, lilás suave de luar e musgo para manter a floresta presente. A tipografia (Cinzel e Spectral) conduz a composição, com um hero centrado no nome da chapa e no slogan oficial. As transições são tranças de cinco galhos finos geradas por um componente próprio — orgânicas, mas discretas.
+O visual segue o conceito **Lunar Forest**: carvão violetado, superfícies em roxo profundo, lilás suave de luar e musgo para manter a floresta presente. A tipografia (Cinzel e Spectral) conduz a composição, com um hero centrado no nome da chapa e no slogan oficial. As transições voltaram à barra roxa original de 6px entre as seções, e cada prioridade ganhou um painel em forma de card. Os dois únicos ornamentos do hero são ícones gratuitos da Lucide (ISC): uma lua com estrela e uma folha, discretamente nas bordas.
 
-Tudo é HTML e CSS puro. O único JavaScript é o necessário para o componente de divisória e para simular o envio do feedback.
+Tudo é HTML e CSS puro. O único JavaScript simula o envio do feedback e fecha o menu mobile.
 
 ## ✨ O que tem
 
 - Cabeçalho fixo com navegação por âncoras e menu mobile via `<details>`.
 - Hero tipográfico com o nome NEXUS em destaque e o slogan oficial.
-- Prioridades em destaque: Voz e Transparência, Esporte e Competição, Cultura e Entretenimento.
+- Prioridades em destaque, cada uma sobre um card sutil: Voz e Transparência, Esporte e Competição, Cultura e Entretenimento.
 - Outras propostas mantidas em segundo plano: Educação e Futuro, Bem-estar e Acolhimento e Período Noturno.
-- Divisor orgânico reutilizável em todas as transições, com `flip` e `variant`.
+- Barra roxa de 6px em todas as transições, como no layout original.
+- Ornamentos do hero feitos com ícones Lucide (ISC), sem desenhos espalhados.
 - Formulário de feedback com validação, estado de envio e mensagem de sucesso **simulados**.
 - Fontes Cinzel e Spectral hospedadas no próprio projeto.
 - Layout responsivo testado em 320, 390, 768 e 1188 px, sem overflow horizontal.
@@ -42,16 +43,14 @@ O deploy é automático via GitHub Pages a cada push em `main`.
 Nexus-Chapa/
 ├── index.html                 # entrada do site (precisa ficar na raiz para o Pages)
 ├── README.md
-├── paginas/
-│   └── divisores.html         # painel local de comparação das opções de divisor
 ├── componentes/
-│   ├── branch-divider.js      # <branch-divider> — trança de galhos em SVG inline
 │   └── script.js              # feedback simulado + fechamento do menu mobile
 ├── estilos/
-│   └── styles.css             # paleta, gradientes, layout e responsividade
+│   └── styles.css             # paleta, gradientes, barras divisórias e responsividade
 └── assets/
     ├── fonts/                 # Cinzel e Spectral (self-hosted)
-    ├── divider-options/       # opções antigas de divisor + referência visual
+    ├── icones/                # lua e folha da Lucide + LICENSE.txt (ISC)
+    ├── divider-options/       # divisores antigos, mantidos como referência
     ├── nexus-mark.png         # marca usada na navbar e no favicon
     ├── nexus-og.png           # preview social (1200×630)
     └── nexus-divider.svg      # divisor antigo, mantido como referência
@@ -77,17 +76,10 @@ Depois acesse o endereço mostrado no terminal (normalmente `http://localhost:30
 | --- | --- |
 | Cores, gradientes e espaçamentos | `estilos/styles.css` (variáveis no `:root`) |
 | Textos e seções | `index.html` |
-| Forma dos galhos, tons e folhas | `componentes/branch-divider.js` |
-| Divisor em cada transição | atributos `variant` e `flip` em `<branch-divider>` |
+| Cor da barra entre seções | `estilos/styles.css` — `.doc > section::after` |
+| Aparência dos cards das prioridades | `estilos/styles.css` — `.priority` |
+| Ícones do hero | `assets/icones/` (Lucide ISC) |
 | Envio real do formulário | `componentes/script.js` — trocar o `setTimeout` por `fetch()` |
-
-Exemplo de uso do componente:
-
-```html
-<branch-divider class="divider--organic" variant="2" flip="x" aria-hidden="true"></branch-divider>
-```
-
-`flip` aceita `x`, `y` ou `both`; `variant` muda a fase e a direção da trança.
 
 ## ✅ Qualidade
 

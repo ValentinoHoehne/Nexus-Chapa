@@ -34,6 +34,7 @@
   --accent: #684C78;
   --accent-soft: #B99BCB;
   --accent-deep: #3B2C45;
+  --purple-light: #69376F; /* cor da barra divisória original */
   --moss: #68745E;
   --moss-deep: #3B4636;
   --amber: #D4AA60;
@@ -314,12 +315,31 @@ h3 {
 
 .hero__decor {
   position: absolute;
-  right: max(1%, calc(50% - 540px));
-  bottom: 6%;
-  width: clamp(120px, 21vw, 220px);
-  height: auto;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
+}
+
+.hero__decor img {
+  position: absolute;
+  display: block;
+}
+
+.hero__decor-moon {
+  top: 12%;
+  right: max(4%, calc(50% - 520px));
+  width: clamp(64px, 9vw, 96px);
+  height: auto;
+  opacity: 0.44;
+}
+
+.hero__decor-leaf {
+  bottom: 11%;
+  left: max(4%, calc(50% - 540px));
+  width: clamp(48px, 7vw, 72px);
+  height: auto;
+  opacity: 0.4;
+  transform: rotate(-18deg);
 }
 
 .kicker {
@@ -367,43 +387,17 @@ h3 {
   margin-left: 12%;
 }
 
-/* Todas as transições usam o componente <branch-divider> (floresta mística). */
-branch-divider {
-  --branch-divider-h: 56px;
-  position: relative;
-  display: block;
-  height: 0;
-  z-index: 3;
-  pointer-events: none;
-}
-
-branch-divider .branch-divider__svg {
+/* Barra roxa original entre as seções, sangrando na largura toda. */
+.doc > section::after {
+  content: "";
   position: absolute;
-  top: calc(var(--branch-divider-h) / -2);
+  top: 0;
   left: 50%;
-  display: block;
-  width: 100vw;
-  height: var(--branch-divider-h);
   transform: translateX(-50%);
-  overflow: visible;
-}
-
-.branch-divider__svg[data-flip="x"] {
-  transform: translateX(-50%) scaleX(-1);
-}
-
-.branch-divider__svg[data-flip="y"] {
-  transform: translateX(-50%) scaleY(-1);
-}
-
-.branch-divider__svg[data-flip="both"] {
-  transform: translateX(-50%) scale(-1);
-}
-
-@media (max-width: 560px) {
-  branch-divider {
-    --branch-divider-h: 44px;
-  }
+  width: 100vw;
+  height: 6px;
+  background: var(--purple-light);
+  z-index: 2;
 }
 
 .doc > section::before {
@@ -515,8 +509,14 @@ branch-divider .branch-divider__svg {
 
 .priority {
   position: relative;
-  padding: 4px 0 4px 28px;
-  border-left: 1px solid var(--accent);
+  padding: 28px 30px 30px;
+  border: 1px solid var(--hairline);
+  border-left: 2px solid var(--accent);
+  border-radius: 12px;
+  background:
+    radial-gradient(120% 100% at 100% 0%, rgba(185, 155, 203, 0.08), transparent 60%),
+    linear-gradient(140deg, rgba(28, 23, 37, 0.96), rgba(16, 14, 22, 0.9));
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.26), inset 0 1px 0 rgba(217, 208, 223, 0.05);
 }
 
 .priority--voice {
@@ -534,10 +534,17 @@ branch-divider .branch-divider__svg {
 }
 
 .priority__label {
+  display: inline-block;
+  padding: 4px 10px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 999px;
+  background: rgba(104, 76, 120, 0.18);
   color: var(--accent-soft);
 }
 
 .priority--sports .priority__label {
+  border-color: rgba(104, 116, 94, 0.45);
+  background: rgba(104, 116, 94, 0.14);
   color: var(--moss);
 }
 
@@ -964,11 +971,15 @@ branch-divider .branch-divider__svg {
     max-width: 18ch;
   }
 
-  .hero__decor {
-    width: 116px;
-    bottom: 3%;
-    right: -4%;
-    opacity: 0.75;
+  .hero__decor-moon {
+    top: 11%;
+    right: 2%;
+    width: 56px;
+    opacity: 0.36;
+  }
+
+  .hero__decor .hero__decor-leaf {
+    display: none;
   }
 
   .lead {
@@ -1016,7 +1027,7 @@ branch-divider .branch-divider__svg {
   .priority--culture {
     margin-left: 0;
     margin-right: 0;
-    padding-left: 18px;
+    padding: 22px 20px 24px;
   }
 
   .priority h3 {
