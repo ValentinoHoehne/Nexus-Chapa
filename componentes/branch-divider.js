@@ -1,7 +1,7 @@
 // Divisor orgânico reutilizável: <branch-divider variant="1" flip="x"></branch-divider>
 // Cinco galhos finos e contínuos, entrelaçados por pequenas sobreposições nos cruzamentos.
 // O viewBox segue innerWidth (o SVG é full-bleed), então nada distorce.
-// Paleta derivada de styles.css: --green-muted, --purple, --purple-light e --accent.
+// Paleta derivada de styles.css: --moss, --accent, --accent-soft e --accent-deep.
 
 let dividerSeq = 0;
 
@@ -128,7 +128,7 @@ function BranchDivider({
       const len = h * 0.12;
       const tipX = p.x + 5;
       const tipY = p.y + dir * (baseHalf + len);
-      leaves += `<path d="M ${n(p.x)} ${n(p.y)} Q ${n(p.x + len)} ${n(p.y + dir * len * 0.3)} ${n(tipX)} ${n(tipY)} Q ${n(p.x + len * 0.25)} ${n(p.y + dir * len * 0.7)} ${n(p.x)} ${n(p.y)} Z" fill="#2D4A2D" stroke="#8FA98B" stroke-width="0.8" opacity="0.78"/>`;
+      leaves += `<path d="M ${n(p.x)} ${n(p.y)} Q ${n(p.x + len)} ${n(p.y + dir * len * 0.3)} ${n(tipX)} ${n(tipY)} Q ${n(p.x + len * 0.25)} ${n(p.y + dir * len * 0.7)} ${n(p.x)} ${n(p.y)} Z" fill="#3B4636" stroke="#68745E" stroke-width="0.8" opacity="0.78"/>`;
     }
 
     let knots = "";
@@ -136,11 +136,11 @@ function BranchDivider({
       const k = interpolate(pts, t + i * 0.03);
       const rx = baseHalf * 0.46;
       const ry = baseHalf * 0.32;
-      knots += `<ellipse cx="${n(k.x)}" cy="${n(k.y)}" rx="${n(rx)}" ry="${n(ry)}" fill="#232027" stroke="#9A6EA0" stroke-width="1" opacity="0.8"/>`;
-      knots += `<ellipse cx="${n(k.x)}" cy="${n(k.y)}" rx="${n(rx * 0.5)}" ry="${n(ry * 0.5)}" fill="none" stroke="#D9B8DD" stroke-width="0.9" opacity="0.5"/>`;
+      knots += `<ellipse cx="${n(k.x)}" cy="${n(k.y)}" rx="${n(rx)}" ry="${n(ry)}" fill="#1C1725" stroke="#684C78" stroke-width="1" opacity="0.8"/>`;
+      knots += `<ellipse cx="${n(k.x)}" cy="${n(k.y)}" rx="${n(rx * 0.5)}" ry="${n(ry * 0.5)}" fill="none" stroke="#B99BCB" stroke-width="0.9" opacity="0.5"/>`;
     });
 
-    base += `<g>${stroke(d, "#141617", strokeWidth + h * 0.05)}${stroke(d, `url(#wood-${strand.tone}-${uid})`, strokeWidth)}${stroke(rim, "#C6A0CB", 1.4, 0.45)}${stroke(grain, "#101511", h * 0.026, 0.4)}${leaves}${knots}</g>`;
+    base += `<g>${stroke(d, "#0B0910", strokeWidth + h * 0.05)}${stroke(d, `url(#wood-${strand.tone}-${uid})`, strokeWidth)}${stroke(rim, "#B99BCB", 1.4, 0.45)}${stroke(grain, "#0B0910", h * 0.026, 0.4)}${leaves}${knots}</g>`;
   });
 
   // Pequeno trecho do galho vencedor em cada cruzamento, com sombra: cria a trama.
@@ -150,7 +150,7 @@ function BranchDivider({
     const pts = slice(strand.points, Math.max(0, c.t - 0.028), Math.min(1, c.t + 0.028));
     const d = smoothPath(pts.map((p) => [p.x, p.y]));
     const rim = smoothPath(pts.map((p) => [p.x, p.y - baseHalf * 0.76]));
-    over += `<g>${stroke(d, "#141617", strokeWidth + h * 0.05)}${stroke(d, `url(#wood-${strand.tone}-${uid})`, strokeWidth)}${stroke(rim, "#D9B8DD", 1.4, 0.5)}</g>`;
+    over += `<g>${stroke(d, "#0B0910", strokeWidth + h * 0.05)}${stroke(d, `url(#wood-${strand.tone}-${uid})`, strokeWidth)}${stroke(rim, "#B99BCB", 1.4, 0.5)}</g>`;
   });
 
   const svgClass = `branch-divider__svg ${safeClass}`.trim();
@@ -158,27 +158,27 @@ function BranchDivider({
   return `<svg class="${svgClass}" data-flip="${direction}" viewBox="0 0 ${w} ${h}" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true" focusable="false">
     <defs>
       <linearGradient id="wood-a-${uid}" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#C6A0CB"/>
-        <stop offset="0.16" stop-color="#5D425C"/>
-        <stop offset="0.5" stop-color="#2D4A2D"/>
-        <stop offset="1" stop-color="#141A16"/>
+        <stop offset="0" stop-color="#B99BCB"/>
+        <stop offset="0.16" stop-color="#3B2C45"/>
+        <stop offset="0.5" stop-color="#3B4636"/>
+        <stop offset="1" stop-color="#0B0910"/>
       </linearGradient>
       <linearGradient id="wood-b-${uid}" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#8FA98B"/>
-        <stop offset="0.18" stop-color="#4A6741"/>
-        <stop offset="0.55" stop-color="#2D4A2D"/>
-        <stop offset="1" stop-color="#141A16"/>
+        <stop offset="0" stop-color="#68745E"/>
+        <stop offset="0.18" stop-color="#46523E"/>
+        <stop offset="0.55" stop-color="#3B4636"/>
+        <stop offset="1" stop-color="#0B0910"/>
       </linearGradient>
       <linearGradient id="wood-c-${uid}" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#C6A0CB"/>
-        <stop offset="0.2" stop-color="#5D425C"/>
-        <stop offset="0.55" stop-color="#1A2E1A"/>
-        <stop offset="1" stop-color="#141414"/>
+        <stop offset="0" stop-color="#B99BCB"/>
+        <stop offset="0.2" stop-color="#3B2C45"/>
+        <stop offset="0.55" stop-color="#151E17"/>
+        <stop offset="1" stop-color="#0B0910"/>
       </linearGradient>
       <linearGradient id="mist-${uid}" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#C6A0CB" stop-opacity="0"/>
-        <stop offset="0.45" stop-color="#C6A0CB" stop-opacity="0.12"/>
-        <stop offset="1" stop-color="#1A2E1A" stop-opacity="0"/>
+        <stop offset="0" stop-color="#B99BCB" stop-opacity="0"/>
+        <stop offset="0.45" stop-color="#B99BCB" stop-opacity="0.12"/>
+        <stop offset="1" stop-color="#151E17" stop-opacity="0"/>
       </linearGradient>
       <radialGradient id="glow-${uid}">
         <stop offset="0" stop-color="#D4AA60" stop-opacity="0.55"/>

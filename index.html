@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="NEXUS — grêmio estudantil. Trabalhamos por uma escola mais participativa, integrada e acolhedora.">
+  <meta name="description" content="Chapa NEXUS — Conectando ideias e construindo mudanças. Voz e transparência, esporte, cultura e mais propostas para a escola.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://valentinohoehne.github.io/Nexus-Chapa/">
   <meta property="og:title" content="NEXUS — Grêmio estudantil">
-  <meta property="og:description" content="Por uma escola mais participativa, integrada e acolhedora. Ouvir, encaminhar, publicar.">
+  <meta property="og:description" content="Conectando ideias e construindo mudanças.">
   <meta property="og:image" content="https://valentinohoehne.github.io/Nexus-Chapa/assets/nexus-og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="NEXUS — Por uma escola mais participativa, integrada e acolhedora">
-  <meta name="theme-color" content="#181A1B">
+  <meta property="og:image:alt" content="NEXUS — Conectando ideias e construindo mudanças">
+  <meta name="theme-color" content="#100E16">
   <title>NEXUS — Grêmio estudantil</title>
   <link rel="icon" href="assets/nexus-mark.png" type="image/png">
   <link rel="preload" href="assets/fonts/cinzel-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -33,9 +33,10 @@
       <nav class="nav-desktop" aria-label="Navegação principal">
         <a href="#inicio">Início</a>
         <a href="#quem-somos">Quem somos</a>
-        <a href="#propostas">Propostas</a>
+        <a href="#propostas">Prioridades</a>
+        <a href="#outras-propostas">Outras propostas</a>
         <a href="#contato">Contato</a>
-        <a class="nav-cta" href="#feedback">Feedback</a>
+        <a class="nav-cta" href="#feedback">Manda sua ideia</a>
       </nav>
 
       <details class="nav-mobile">
@@ -43,9 +44,10 @@
         <nav class="nav-mobile__panel" aria-label="Navegação mobile">
           <a href="#inicio">Início</a>
           <a href="#quem-somos">Quem somos</a>
-          <a href="#propostas">Propostas</a>
+          <a href="#propostas">Prioridades</a>
+          <a href="#outras-propostas">Outras propostas</a>
           <a href="#contato">Contato</a>
-          <a href="#feedback">Feedback</a>
+          <a href="#feedback">Manda sua ideia</a>
         </nav>
       </details>
     </div>
@@ -53,11 +55,23 @@
 
   <main id="conteudo" class="doc shell">
     <div class="doc__masthead" id="inicio">
-      <p class="kicker">NEXUS · grêmio estudantil</p>
-      <h1>Por uma escola mais participativa, integrada e acolhedora.</h1>
-      <p class="lead">Somos o NEXUS. <strong>Ouvimos</strong> a comunidade escolar, <strong>encaminhamos</strong> as propostas à gestão e <strong>publicamos</strong> o que sai do papel.</p>
+      <p class="kicker">Chapa NEXUS · grêmio estudantil</p>
+      <h1 class="hero__word">NEXUS</h1>
+      <p class="hero__slogan">Conectando ideias e construindo mudanças.</p>
+      <svg class="hero__decor" viewBox="0 0 220 200" fill="none" aria-hidden="true" focusable="false">
+        <path d="M14 186C48 176 72 150 88 112M88 112c8-22 8-46 2-70M88 112c22-12 44-16 68-14M156 98c14-4 27-12 37-24" stroke="#B99BCB" stroke-width="1.1" stroke-linecap="round" opacity="0.5"/>
+        <path d="M50 163c-12-2-20-9-24-20 13-1 22 6 24 20ZM72 133c12-6 22-5 30 3-12 7-23 6-30-3ZM95 78c-11-5-17-13-18-24 12 2 19 10 18 24ZM112 101c10-8 21-9 31-4-9 9-20 11-31 4ZM145 99c-8-7-11-16-10-26 10 5 14 14 10 26Z" fill="#68745E" opacity="0.55"/>
+        <path d="M176 38a24 24 0 1 0 22 34 27 27 0 0 1-22-34Z" fill="#B99BCB" opacity="0.32"/>
+        <circle cx="34" cy="52" r="1.6" fill="#B99BCB" opacity="0.7"/>
+        <circle cx="196" cy="126" r="1.3" fill="#D4AA60" opacity="0.6"/>
+        <circle cx="132" cy="30" r="1.1" fill="#B99BCB" opacity="0.5"/>
+      </svg>
+      <p class="lead">Somos o NEXUS. <strong>Ouvimos</strong> a comunidade escolar, <strong>encaminhamos</strong> as propostas e <strong>publicamos</strong> o que sai do papel.</p>
       <p class="doc__meta">Reunião aberta · Ouvir, encaminhar, publicar</p>
-      <a class="btn btn--primary hero-cta" href="#feedback">Manda sua ideia</a>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#feedback">Manda sua ideia</a>
+        <a class="btn btn--ghost" href="#propostas">Ver prioridades <span aria-hidden="true">↗</span></a>
+      </div>
     </div>
 
     <branch-divider class="divider--organic" variant="0" flip="y" aria-hidden="true"></branch-divider>
@@ -68,7 +82,6 @@
         <h2 id="quem-title">Quem somos</h2>
       </div>
       <p>O NEXUS é o grêmio estudantil da nossa escola. <strong>Ouvir, encaminhar e publicar</strong>: é assim que transformamos o que a comunidade precisa em encaminhamentos concretos.</p>
-      <!-- Texto provisório: substitua pelo conteúdo oficial da chapa. -->
       <dl class="facts">
         <div>
           <dt>Ouvir</dt>
@@ -89,45 +102,108 @@
     <!-- Divisor orgânico reutilizável; atributos opcionais: flip="x|y|both", variant="0|1|2" -->
     <branch-divider class="divider--organic" variant="1" aria-hidden="true"></branch-divider>
 
-    <section id="propostas" aria-labelledby="propostas-title">
+    <section id="propostas" class="priorities" aria-labelledby="propostas-title">
       <div class="topic-head">
         <p class="section-index">02 <span>/</span></p>
-        <h2 id="propostas-title">O que defendemos</h2>
+        <h2 id="propostas-title">Prioridades da chapa</h2>
       </div>
-      <p>Três frentes da chapa, com um jeito claro de acontecer:</p>
-      <ol class="doc-list">
-        <li>
-          <span class="doc-list__num">01</span>
-          <div>
-            <h3>Voz com retorno</h3>
-            <p>Canal permanente para sugestões e ideias, com acompanhamento do andamento e resposta para quem manifestou.</p>
-            <p class="example"><span>Como:</span> a sugestão entra na pauta, recebe resposta e tem o andamento publicado.</p>
-          </div>
-        </li>
-        <li>
-          <span class="doc-list__num">02</span>
-          <div>
-            <h3>Transparência nas decisões</h3>
-            <p>Mostrar o que foi decidido, por quê e como os recursos são usados, em relatórios acessíveis a todos.</p>
-            <p class="example"><span>Como:</span> decisões que afetam os alunos vêm com motivos e encaminhamento.</p>
-          </div>
-        </li>
-        <li>
-          <span class="doc-list__num">03</span>
-          <div>
-            <h3>Esporte que integra</h3>
-            <p>Interclasses e ligas organizadas, quadra aberta aos estudantes e premiação para os vencedores.</p>
-            <p class="example"><span>Como:</span> campeonatos com regulamento claro, abertos a todas as turmas.</p>
-          </div>
-        </li>
-      </ol>
+      <p>Três frentes para deixar a escola mais participativa, integrada e acolhedora.</p>
+
+      <div class="priority-grid">
+        <article class="priority priority--voice">
+          <p class="priority__label">01 · Prioridade</p>
+          <h3>Voz e Transparência</h3>
+          <p class="priority__focus">Participação, comunicação e prestação de contas.</p>
+          <ul class="priority__points">
+            <li>Plataforma de sugestões, reclamações e feedback anônimo</li>
+            <li>Acompanhamento do andamento das solicitações</li>
+            <li>Respostas e justificativas claras</li>
+            <li>Enquetes, comunicados e calendário de atividades</li>
+            <li>Reuniões periódicas com representantes de turma</li>
+            <li>Relatórios sobre decisões e recursos arrecadados</li>
+            <li>Alinhamento entre Grêmio e Atlética</li>
+          </ul>
+        </article>
+
+        <article class="priority priority--sports">
+          <p class="priority__label">02 · Prioridade</p>
+          <h3>Esporte e Competição</h3>
+          <p class="priority__focus">Mais chances de participar, dentro e fora da quadra.</p>
+          <ul class="priority__points">
+            <li>Interclasses de futsal, basquete e vôlei</li>
+            <li>Ligas esportivas ao longo do ano</li>
+            <li>Liga de E-Sports</li>
+            <li>Quadra aberta nos intervalos</li>
+            <li>Troféus e medalhas para os vencedores</li>
+            <li>Melhorias nos equipamentos esportivos</li>
+            <li>Arrecadação para melhorias esportivas e sociais</li>
+          </ul>
+        </article>
+
+        <article class="priority priority--culture">
+          <p class="priority__label">03 · Prioridade</p>
+          <h3>Cultura e Entretenimento</h3>
+          <p class="priority__focus">Encontros, criatividade e lazer feitos com os alunos.</p>
+          <ul class="priority__points">
+            <li>Halloween mais elaborado</li>
+            <li>Atividades com os trotes do terceiro ano</li>
+            <li>Karaokê, concursos, quizzes e dinâmicas</li>
+            <li>Filmes e séries durante o almoço</li>
+            <li>Eventos escolhidos pela participação dos estudantes</li>
+          </ul>
+        </article>
+      </div>
     </section>
 
     <branch-divider class="divider--organic" variant="2" flip="x" aria-hidden="true"></branch-divider>
 
-    <section id="contato" aria-labelledby="contato-title">
+    <section id="outras-propostas" class="secondary-proposals" aria-labelledby="outras-title">
       <div class="topic-head">
         <p class="section-index">03 <span>/</span></p>
+        <h2 id="outras-title">Outras propostas</h2>
+      </div>
+      <p>Compromissos que complementam as prioridades e alcançam diferentes rotinas da escola.</p>
+
+      <div class="area-grid">
+        <article class="area">
+          <h3>Educação e Futuro</h3>
+          <ul>
+            <li>Materiais para vestibulares</li>
+            <li>Grupos e encontros de estudo</li>
+            <li>Palestras com universitários</li>
+            <li>Palestras com profissionais</li>
+            <li>Feira de profissões e produtos dos alunos</li>
+          </ul>
+        </article>
+        <article class="area">
+          <h3>Bem-estar e Acolhimento</h3>
+          <ul>
+            <li>Sala de pingue-pongue revitalizada</li>
+            <li>Produtos de higiene nos banheiros</li>
+            <li>Primeiros socorros acessíveis</li>
+            <li>Palestras de socorro e defesa pessoal</li>
+            <li>Dinâmicas de integração para ingressantes</li>
+          </ul>
+        </article>
+        <article class="area">
+          <h3>Valorização do Período Noturno</h3>
+          <ul>
+            <li>Comunicação específica para o noturno</li>
+            <li>Atividades adaptadas aos horários</li>
+            <li>Participação nas decisões do grêmio</li>
+            <li>Visibilidade dos projetos dos cursos noturnos</li>
+            <li>Estudos e apoio acadêmico no contraturno</li>
+            <li>Integração entre os períodos</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <branch-divider class="divider--organic" variant="3" flip="y" aria-hidden="true"></branch-divider>
+
+    <section id="contato" aria-labelledby="contato-title">
+      <div class="topic-head">
+        <p class="section-index">04 <span>/</span></p>
         <h2 id="contato-title">Fala com a gente</h2>
       </div>
       <p>Um recado, uma ideia ou uma dúvida? <strong>Escolha o canal</strong> e fala com a gente.</p>
@@ -147,11 +223,11 @@
       </dl>
     </section>
 
-    <branch-divider class="divider--organic" variant="3" flip="y" aria-hidden="true"></branch-divider>
+    <branch-divider class="divider--organic" variant="0" flip="both" aria-hidden="true"></branch-divider>
 
     <section id="feedback" aria-labelledby="feedback-title">
       <div class="topic-head">
-        <p class="section-index">04 <span>/</span></p>
+        <p class="section-index">05 <span>/</span></p>
         <h2 id="feedback-title">Manda sua ideia</h2>
       </div>
       <p>O que a gente pode fazer melhor? <strong>Escreve aqui</strong> — sua mensagem chega para a chapa.</p>
@@ -172,6 +248,14 @@
           <p class="form-status" id="feedback-status" role="status" aria-live="polite"></p>
         </div>
       </form>
+    </section>
+
+    <branch-divider class="divider--organic" variant="1" flip="both" aria-hidden="true"></branch-divider>
+
+    <section id="final-cta" class="final-cta" aria-labelledby="final-title">
+      <p class="kicker">A chapa é de quem participa</p>
+      <h2 id="final-title">Conectando ideias e construindo mudanças.</h2>
+      <a class="btn btn--primary" href="#feedback">Manda sua ideia <span aria-hidden="true">→</span></a>
     </section>
   </main>
 

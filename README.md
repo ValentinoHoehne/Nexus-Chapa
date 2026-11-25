@@ -2,7 +2,7 @@
 
 ![Prévia do NEXUS](assets/nexus-og.png)
 
-> **Por uma escola mais participativa, integrada e acolhedora.** Ouvir, encaminhar, publicar.
+> **Conectando ideias e construindo mudanças.** Chapa NEXUS · grêmio estudantil.
 
 Página estática de apresentação do grêmio estudantil NEXUS. Direta ao ponto, mobile-first e sem cadastro: o foco é deixar claro o que a chapa faz e como a comunidade pode falar com a gente.
 
@@ -15,14 +15,16 @@ Página estática de apresentação do grêmio estudantil NEXUS. Direta ao ponto
 
 ## 🌿 A ideia
 
-O visual segue uma **floresta mística**: carvão e verde profundo, luz de lua em lilás, musgo e pequenos pontos âmbar. As transições entre seções são tranças de cinco galhos finos, geradas por um componente próprio — orgânicas, mas limpas, sem animações chamativas.
+O visual segue o conceito **Lunar Forest**: carvão violetado, superfícies em roxo profundo, lilás suave de luar e musgo para manter a floresta presente. A tipografia (Cinzel e Spectral) conduz a composição, com um hero centrado no nome da chapa e no slogan oficial. As transições são tranças de cinco galhos finos geradas por um componente próprio — orgânicas, mas discretas.
 
 Tudo é HTML e CSS puro. O único JavaScript é o necessário para o componente de divisória e para simular o envio do feedback.
 
 ## ✨ O que tem
 
 - Cabeçalho fixo com navegação por âncoras e menu mobile via `<details>`.
-- Cinco blocos em tela cheia, com a mesma altura: início, quem somos, propostas, contato e feedback.
+- Hero tipográfico com o nome NEXUS em destaque e o slogan oficial.
+- Prioridades em destaque: Voz e Transparência, Esporte e Competição, Cultura e Entretenimento.
+- Outras propostas mantidas em segundo plano: Educação e Futuro, Bem-estar e Acolhimento e Período Noturno.
 - Divisor orgânico reutilizável em todas as transições, com `flip` e `variant`.
 - Formulário de feedback com validação, estado de envio e mensagem de sucesso **simulados**.
 - Fontes Cinzel e Spectral hospedadas no próprio projeto.
@@ -90,13 +92,12 @@ Exemplo de uso do componente:
 ## ✅ Qualidade
 
 - Lighthouse: **100** em acessibilidade, boas práticas e SEO.
-- Blocos com alturas iguais e `overflow-x: 0` em 320, 390, 768 e 1188 px.
+- `overflow-x: 0` em 320, 390, 768 e 1188 px.
 - Console sem erros; fontes e scripts carregando nos caminhos corretos.
 - Respeito a `prefers-reduced-motion`.
 
 ## 📌 Ainda provisório
 
-- Textos das propostas e do “Quem somos”.
 - E-mail e WhatsApp de contato.
 - Envio do feedback: hoje é apenas uma demonstração, sem back-end.
 
