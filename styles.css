@@ -314,6 +314,13 @@ h3 {
   text-align: left;
 }
 
+/* CTA principal acima da dobra, repetido no rodapé */
+.hero-cta {
+  align-self: flex-start;
+  margin-top: 20px;
+  margin-left: 12%;
+}
+
 .doc > section {
   position: relative;
   isolation: isolate;
@@ -394,6 +401,12 @@ h3 {
   margin-left: 12%;
 }
 
+.doc > section > p.section-close {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-top: 20px;
+}
+
 /* Três passos, em linha */
 .facts {
   display: grid;
@@ -450,6 +463,22 @@ h3 {
   color: var(--text-secondary);
   font-size: 14px;
   margin-top: 4px;
+}
+
+.doc-list .example {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+  margin-top: 6px;
+}
+
+.doc-list .example span {
+  color: var(--accent-deep);
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-right: 4px;
 }
 
 /* Contato */
@@ -637,6 +666,10 @@ h3 {
   color: var(--text);
 }
 
+.site-footer .footer-cta {
+  color: var(--accent);
+}
+
 /* Responsivo */
 @media (max-width: 860px) {
   .nav-desktop {
@@ -716,6 +749,7 @@ h3 {
 
   .lead,
   .doc__meta,
+  .hero-cta,
   .doc > section > p:not(.form-note),
   .doc > section > .form-note,
   .facts,
@@ -735,9 +769,29 @@ h3 {
     gap: 0;
   }
 
+  .doc-list {
+    margin-top: 20px;
+  }
+
   .doc-list li {
     grid-template-columns: 32px minmax(0, 1fr);
     gap: 10px;
+    padding: 14px 0;
+  }
+
+  .doc-list h3 {
+    font-size: 15px;
+  }
+
+  .doc-list p {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .doc-list .example {
+    font-size: 11px;
+    line-height: 1.4;
+    margin-top: 4px;
   }
 
   .site-footer__inner {
@@ -765,6 +819,29 @@ h3 {
 
   .field textarea {
     min-height: 88px;
+  }
+
+  .doc-list {
+    margin-top: 14px;
+  }
+
+  .doc-list li {
+    padding: 9px 0;
+  }
+
+  .doc-list h3 {
+    font-size: 14px;
+  }
+
+  .doc-list p {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .doc-list .example {
+    font-size: 10.5px;
+    line-height: 1.3;
+    margin-top: 2px;
   }
 }
 
