@@ -321,13 +321,12 @@ h3 {
 /* CTA principal acima da dobra, repetido no rodapé */
 .btn.hero-cta {
   align-self: flex-start;
-  min-height: 44px;
-  margin-top: 20px;
+  min-height: 40px;
+  margin-top: 32px;
   margin-left: 12%;
-  padding: 11px 22px;
+  padding: 9px 18px;
   border-color: var(--accent);
-  font-size: 14px;
-  letter-spacing: 0.01em;
+  font-size: 13px;
 }
 
 .doc > section {
