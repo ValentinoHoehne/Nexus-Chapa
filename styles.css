@@ -320,15 +320,16 @@ h3 {
 }
 
 /* Barra roxa e faixas alternadas sangrando na largura toda */
-.doc > section + section::after {
+.doc > section::after {
   content: "";
   position: absolute;
-  top: 0;
+  top: -12px;
   left: 50%;
   transform: translateX(-50%);
   width: 100vw;
-  height: 6px;
-  background: var(--purple-light);
+  height: 24px;
+  background: url("assets/nexus-divider.svg") repeat-x center / 240px 24px;
+  opacity: 0.85;
 }
 
 .doc > section::before {
