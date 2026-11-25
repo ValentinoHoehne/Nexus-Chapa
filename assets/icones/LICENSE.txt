@@ -15,4 +15,4 @@ ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 Fonte: https://github.com/lucide-icons/lucide
-Ícones usados: moon-star (lua-estrela.svg) e leaf (folha.svg).
+Ícone usado: moon-star (lua-estrela.svg). O motivo de conexão (conexao.svg) é desenho original deste projeto.

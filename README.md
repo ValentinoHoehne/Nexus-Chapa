@@ -13,20 +13,22 @@ Página estática de apresentação do grêmio estudantil NEXUS. Direta ao ponto
 
 ---
 
-## 🌿 A ideia
+## 🌙 A ideia
 
-O visual segue o conceito **Lunar Forest**: carvão violetado, superfícies em roxo profundo, lilás suave de luar e musgo para manter a floresta presente. A tipografia (Cinzel e Spectral) conduz a composição, com um hero centrado no nome da chapa e no slogan oficial. As transições voltaram à barra roxa original de 6px entre as seções, e cada prioridade ganhou um painel em forma de card. Os dois únicos ornamentos do hero são ícones gratuitos da Lucide (ISC): uma lua com estrela e uma folha, discretamente nas bordas.
+Identidade **Lunar Forest** levada ao extremo editorial: fundo carvão `#100E16`, superfícies em roxo profundo `#1C1725`, acentos em violeta `#684C78` e lilás `#B99BCB`, tipografia clara `#D9D0DF` e um toque de musgo `#68745E`. A atmosfera é de floresta noturna **sem desenhar galhos, folhas ou flores**: o que resta é a lua, linhas de conexão e pontos de luz discretos.
+
+Cinzel comanda os títulos e a marca; Spectral conduz a leitura. Cada seção tem uma composição própria — hero em duas colunas, manifesto, prioridades em escada, índice de propostas, contato em linhas, formulário aberto e chamada final em spread. As seis áreas e todas as propostas continuam no ar, com as três prioridades principais em destaque.
 
 Tudo é HTML e CSS puro. O único JavaScript simula o envio do feedback e fecha o menu mobile.
 
 ## ✨ O que tem
 
 - Cabeçalho fixo com navegação por âncoras e menu mobile via `<details>`.
-- Hero tipográfico com o nome NEXUS em destaque e o slogan oficial.
-- Prioridades em destaque, cada uma sobre um card sutil: Voz e Transparência, Esporte e Competição, Cultura e Entretenimento.
-- Outras propostas mantidas em segundo plano: Educação e Futuro, Bem-estar e Acolhimento e Período Noturno.
-- Barra roxa de 6px em todas as transições, como no layout original.
-- Ornamentos do hero feitos com ícones Lucide (ISC), sem desenhos espalhados.
+- Hero assimétrico, tipografia-first: **NEXUS** domina e o slogan oficial vem logo abaixo.
+- Prioridades em destaque sobre painéis planos e recuados: Voz e Transparência, Esporte e Competição, Cultura e Entretenimento.
+- Outras propostas em índice discreto: Educação e Futuro, Bem-estar e Acolhimento e Período Noturno (complementar).
+- Barra roxa de 6px entre as seções, com um pequeno ponto lilás de conexão.
+- Símbolo lunar da Lucide (ISC) e motivo de conexão original: só retas e pontos.
 - Formulário de feedback com validação, estado de envio e mensagem de sucesso **simulados**.
 - Fontes Cinzel e Spectral hospedadas no próprio projeto.
 - Layout responsivo testado em 320, 390, 768 e 1188 px, sem overflow horizontal.
@@ -46,14 +48,12 @@ Nexus-Chapa/
 ├── componentes/
 │   └── script.js              # feedback simulado + fechamento do menu mobile
 ├── estilos/
-│   └── styles.css             # paleta, gradientes, barras divisórias e responsividade
+│   └── styles.css             # paleta, composições, transições e responsividade
 └── assets/
     ├── fonts/                 # Cinzel e Spectral (self-hosted)
-    ├── icones/                # lua e folha da Lucide + LICENSE.txt (ISC)
-    ├── divider-options/       # divisores antigos, mantidos como referência
+    ├── icones/                # lua da Lucide + conexão original + LICENSE.txt (ISC)
     ├── nexus-mark.png         # marca usada na navbar e no favicon
-    ├── nexus-og.png           # preview social (1200×630)
-    └── nexus-divider.svg      # divisor antigo, mantido como referência
+    └── nexus-og.png           # preview social (1200×630)
 ```
 
 ## 🛠 Como rodar localmente
@@ -74,11 +74,11 @@ Depois acesse o endereço mostrado no terminal (normalmente `http://localhost:30
 
 | O que você quer mudar | Onde fica |
 | --- | --- |
-| Cores, gradientes e espaçamentos | `estilos/styles.css` (variáveis no `:root`) |
+| Cores, tipografia e espaçamentos | `estilos/styles.css` (variáveis no `:root`) |
 | Textos e seções | `index.html` |
-| Cor da barra entre seções | `estilos/styles.css` — `.doc > section::after` |
-| Aparência dos cards das prioridades | `estilos/styles.css` — `.priority` |
-| Ícones do hero | `assets/icones/` (Lucide ISC) |
+| Barra entre seções | `estilos/styles.css` — `.doc > section::after` |
+| Destaque das três prioridades | `estilos/styles.css` — `.priority` |
+| Símbolos decorativos | `assets/icones/` (Lua Lucide ISC + conexão original) |
 | Envio real do formulário | `componentes/script.js` — trocar o `setTimeout` por `fetch()` |
 
 ## ✅ Qualidade
