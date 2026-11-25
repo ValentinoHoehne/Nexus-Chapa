@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Divisores NEXUS — opções</title>
   <style>
-    @font-face { font-family: Cinzel; src: url("assets/fonts/cinzel-latin.woff2") format("woff2"); font-weight: 500 600; font-display: swap; }
-    @font-face { font-family: Spectral; src: url("assets/fonts/spectral-400-latin.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+    @font-face { font-family: Cinzel; src: url("../assets/fonts/cinzel-latin.woff2") format("woff2"); font-weight: 500 600; font-display: swap; }
+    @font-face { font-family: Spectral; src: url("../assets/fonts/spectral-400-latin.woff2") format("woff2"); font-weight: 400; font-display: swap; }
     :root { --bg: #181A1B; --band: #1D1F20; --text: #EADFD3; --muted: #9A948C; --accent: #C6A0CB; }
     * { box-sizing: border-box; }
     body { margin: 0; background: var(--bg); color: var(--text); font-family: Spectral, Georgia, serif; }
@@ -42,7 +42,7 @@
     <section class="preview">
       <h2>Prévia na página</h2>
       <p id="status">Mostrando: carvalho maciço.</p>
-      <iframe id="page" src="index.html" title="Prévia da página com o divisor escolhido"></iframe>
+      <iframe id="page" src="../index.html" title="Prévia da página com o divisor escolhido"></iframe>
     </section>
   </main>
   <script>
@@ -75,7 +75,7 @@
           <span class="swatches">${opt.colors.map(c => `<i style="background:${c}"></i>`).join("")}</span>
         </div>
         <div class="strip">
-          ${Array.from({ length: 3 }, () => `<div style="background-image:url('assets/divider-options/${opt.id}.svg')"></div>`).join("")}
+          ${Array.from({ length: 3 }, () => `<div style="background-image:url('../assets/divider-options/${opt.id}.svg')"></div>`).join("")}
         </div>
         <div class="card__foot">
           <small>${opt.note}</small>
@@ -91,11 +91,25 @@
         card.classList.toggle("is-active", card.querySelector("button").dataset.id === id);
       });
       frame.onload = () => {
-        const style = frame.contentDocument.createElement("style");
-        style.textContent = `.doc > section::after { background-image: url("assets/divider-options/${id}.svg") !important; }`;
-        frame.contentDocument.head.appendChild(style);
+        const doc = frame.contentDocument;
+        const style = doc.createElement("style");
+        style.textContent = `
+          branch-divider { display: none !important; }
+          .doc > section::after {
+            content: "";
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 32px;
+            background: url("assets/divider-options/${id}.svg") repeat-x center / 240px 32px;
+            z-index: 3;
+          }
+        `;
+        doc.head.appendChild(style);
       };
-      frame.src = "index.html";
+      frame.src = "../index.html";
     }
 
     grid.addEventListener("click", (event) => {
