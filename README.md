@@ -27,6 +27,7 @@ Tudo é HTML e CSS puro. O único JavaScript simula o envio do feedback e fecha 
 - Hero assimétrico, tipografia-first: **NEXUS** domina e o slogan oficial vem logo abaixo.
 - Prioridades em destaque sobre painéis planos e recuados: Voz e Transparência, Esporte e Competição, Cultura e Entretenimento.
 - Outras propostas em índice discreto: Educação e Futuro, Bem-estar e Acolhimento e Período Noturno (complementar).
+- Contatos: Instagram da chapa e telefones de Esther Avelino e Igor Ryan, com link direto para ligação.
 - Barra roxa de 6px entre as seções, com um pequeno ponto lilás de conexão.
 - Símbolo lunar da Lucide (ISC) e motivo de conexão original: só retas e pontos.
 - Formulário de feedback com validação, estado de envio e mensagem de sucesso **simulados**.
@@ -90,7 +91,6 @@ Depois acesse o endereço mostrado no terminal (normalmente `http://localhost:30
 
 ## 📌 Ainda provisório
 
-- E-mail e WhatsApp de contato.
 - Envio do feedback: hoje é apenas uma demonstração, sem back-end.
 
 ---
