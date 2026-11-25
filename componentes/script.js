@@ -1,3 +1,20 @@
+// Ao atualizar, começa do topo em vez de restaurar a rolagem anterior.
+const navegacao = performance.getEntriesByType('navigation')[0];
+if (navegacao && navegacao.type === 'reload') {
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const raiz = document.documentElement;
+    raiz.style.scrollBehavior = 'auto';
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() => {
+      raiz.style.scrollBehavior = '';
+    });
+  });
+}
+
 // Feedback em demonstração. Quando o back-end existir, substitua o bloco abaixo
 // por um fetch() para a API e trate loading/erro com o mesmo #feedback-status.
 const form = document.querySelector('#feedback-form');

@@ -26,6 +26,7 @@ Tudo é HTML e CSS puro. O único JavaScript simula o envio do feedback e fecha 
 - Cabeçalho fixo com navegação por âncoras e menu mobile via `<details>`.
 - Hero assimétrico, tipografia-first: **NEXUS** domina em degradê lilás→musgo, o slogan oficial vem logo abaixo e atalhos numerados convidam às três prioridades.
 - Fundo do hero com lavanda e musgo mais presentes; lua maior, órbita mais nítida e campo de pontos sutil, sem galhos, folhas ou flores.
+- Hero sem as duas barrinhas com pontos abaixo do botão; o motivo de conexão permanece apenas na chamada final.
 - Botão principal em degradê lilás→branco-quente (`#D9D0DF`), com contraste alto sobre o fundo escuro.
 - Prioridades em destaque sobre painéis planos e recuados: Voz e Transparência, Esporte e Competição, Cultura e Entretenimento.
 - Outras propostas em índice discreto: Educação e Futuro, Bem-estar e Acolhimento e Período Noturno (complementar).
@@ -34,6 +35,9 @@ Tudo é HTML e CSS puro. O único JavaScript simula o envio do feedback e fecha 
 - Símbolo lunar da Lucide (ISC) e motivo de conexão original: só retas e pontos.
 - Formulário de feedback com validação, estado de envio e mensagem de sucesso **simulados**.
 - Fontes Cinzel e Spectral hospedadas no próprio projeto.
+- Tipografia ampliada e com contraste mais alto: corpo em 16 px, títulos maiores e textos secundários mais claros.
+- Respiro extra entre o cabeçalho fixo e o início do conteúdo.
+- Ao atualizar a página, a rolagem volta ao topo em vez de manter a posição anterior.
 - Layout responsivo testado em 320, 390, 768 e 1188 px, sem overflow horizontal.
 
 ## 🚀 Ver online
