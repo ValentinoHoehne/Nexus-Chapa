@@ -41,6 +41,19 @@
   --text-muted: #9A948C;
   --accent: #C6A0CB;
   --accent-deep: #5D425C;
+
+  /* Gradientes da chapa: o do título é o mais intenso */
+  --grad-title:
+    radial-gradient(60% 70% at 14% 18%, rgba(105, 55, 111, 0.42), transparent 70%),
+    radial-gradient(50% 60% at 86% 82%, rgba(61, 78, 63, 0.34), transparent 70%),
+    linear-gradient(120deg, var(--green-dark) 0%, var(--bg) 48%, var(--purple-dark) 100%);
+  --grad-a:
+    radial-gradient(60% 70% at 12% 20%, rgba(105, 55, 111, 0.16), transparent 70%),
+    linear-gradient(120deg, var(--green-dark) 0%, var(--bg) 70%);
+  --grad-b:
+    radial-gradient(60% 70% at 88% 80%, rgba(61, 78, 63, 0.22), transparent 70%),
+    linear-gradient(120deg, var(--bg) 0%, var(--band) 55%, var(--purple-dark) 100%);
+
   --hairline: rgba(234, 223, 211, 0.12);
   --hairline-strong: rgba(234, 223, 211, 0.2);
 
@@ -266,10 +279,7 @@ h3 {
   transform: translateX(-50%);
   width: 100vw;
   z-index: -1;
-  background:
-    radial-gradient(55% 65% at 14% 18%, rgba(105, 55, 111, 0.3), transparent 70%),
-    radial-gradient(45% 55% at 86% 82%, rgba(61, 78, 63, 0.26), transparent 70%),
-    linear-gradient(120deg, var(--green-dark) 0%, var(--bg) 48%, var(--purple-dark) 100%);
+  background: var(--grad-title);
 }
 
 .kicker {
@@ -306,6 +316,7 @@ h3 {
 
 .doc > section {
   position: relative;
+  isolation: isolate;
 }
 
 /* Barra roxa e faixas alternadas sangrando na largura toda */
@@ -320,19 +331,19 @@ h3 {
   background: var(--purple-light);
 }
 
-.doc > section:nth-of-type(even) {
-  isolation: isolate;
-}
-
-.doc > section:nth-of-type(even)::before {
+.doc > section::before {
   content: "";
   position: absolute;
   inset-block: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 100vw;
-  background: var(--band);
+  background: var(--grad-a);
   z-index: -1;
+}
+
+.doc > section:nth-of-type(even)::before {
+  background: var(--grad-b);
 }
 
 .topic-head {
