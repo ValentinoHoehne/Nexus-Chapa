@@ -323,12 +323,12 @@ h3 {
 .doc > section::after {
   content: "";
   position: absolute;
-  top: -12px;
+  top: -16px;
   left: 50%;
   transform: translateX(-50%);
   width: 100vw;
-  height: 24px;
-  background: url("assets/nexus-divider.svg") repeat-x center / 240px 24px;
+  height: 32px;
+  background: url("assets/nexus-divider.svg") repeat-x center / 240px 32px;
   opacity: 1;
 }
 
