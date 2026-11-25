@@ -2,7 +2,7 @@
 
 ![Prévia do NEXUS](assets/nexus-og.png)
 
-> **Propostas que viram ação.** Ouvir, encaminhar, publicar.
+> **Por uma escola mais participativa, integrada e acolhedora.** Ouvir, encaminhar, publicar.
 
 Página estática de apresentação do grêmio estudantil NEXUS. Direta ao ponto, mobile-first e sem cadastro: o foco é deixar claro o que a chapa faz e como a comunidade pode falar com a gente.
 
