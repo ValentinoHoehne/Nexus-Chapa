@@ -24,12 +24,13 @@ Tudo é HTML e CSS puro. O único JavaScript simula o envio do feedback e fecha 
 ## ✨ O que tem
 
 - Cabeçalho fixo com navegação por âncoras e menu mobile via `<details>`.
-- Hero assimétrico, tipografia-first: **NEXUS** domina, o slogan oficial vem logo abaixo e atalhos numerados convidam às três prioridades.
-- Órbita lunar e campo de pontos discretos no hero, sem galhos, folhas ou flores.
+- Hero assimétrico, tipografia-first: **NEXUS** domina em degradê lilás→musgo, o slogan oficial vem logo abaixo e atalhos numerados convidam às três prioridades.
+- Fundo do hero com lavanda e musgo mais presentes; lua maior, órbita mais nítida e campo de pontos sutil, sem galhos, folhas ou flores.
+- Botão principal em degradê lilás→branco-quente (`#D9D0DF`), com contraste alto sobre o fundo escuro.
 - Prioridades em destaque sobre painéis planos e recuados: Voz e Transparência, Esporte e Competição, Cultura e Entretenimento.
 - Outras propostas em índice discreto: Educação e Futuro, Bem-estar e Acolhimento e Período Noturno (complementar).
 - Contatos: Instagram da chapa e telefones de Esther Avelino e Igor Ryan, com link direto para ligação.
-- Barra roxa de 6px entre as seções, com um pequeno ponto lilás de conexão.
+- Barra de 6px entre as seções em degradê roxo→lilás→musgo, com um pequeno ponto claro de conexão.
 - Símbolo lunar da Lucide (ISC) e motivo de conexão original: só retas e pontos.
 - Formulário de feedback com validação, estado de envio e mensagem de sucesso **simulados**.
 - Fontes Cinzel e Spectral hospedadas no próprio projeto.
