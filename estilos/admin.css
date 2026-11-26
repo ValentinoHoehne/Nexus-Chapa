@@ -1,4 +1,4 @@
-/* Estilos exclusivos do painel local. Reusa os tokens de styles.css. */
+/* Estilos exclusivos do painel de ideias. Reusa os tokens de styles.css. */
 
 [hidden] {
   display: none !important;
@@ -41,6 +41,33 @@
   background: var(--surface);
   color: var(--text-secondary);
   font-size: 15px;
+}
+
+.admin-login {
+  max-width: 480px;
+  margin-top: 28px;
+  padding: 24px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+}
+
+.admin-login h2 {
+  font-size: 1.3rem;
+}
+
+.admin-login > p {
+  margin-top: 8px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.admin-login .field {
+  margin-top: 16px;
+}
+
+.admin-login .form-actions {
+  margin-top: 20px;
 }
 
 .admin-toolbar {

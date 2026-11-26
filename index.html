@@ -223,9 +223,9 @@
         <h2 id="feedback-title">Mande sua ideia</h2>
       </div>
       <p>O que a gente pode fazer melhor? <strong>Escreve aqui</strong> — registre sua ideia.</p>
-      <p class="form-note">Protótipo local: a mensagem fica salva apenas neste navegador, neste dispositivo. Ela não é enviada à chapa.</p>
+      <p class="form-note" id="feedback-nota">Protótipo local: a mensagem fica salva apenas neste navegador, neste dispositivo. Ela não é enviada à chapa.</p>
 
-      <!-- Persistência em componentes/storage.js. Troque o adapter por Supabase sem mudar este formulário. -->
+      <!-- Persistência em componentes/storage.js; o envio ao Supabase é ativado por componentes/config.js no deploy. -->
       <form class="feedback-form" id="feedback-form" novalidate>
         <div class="field">
           <label for="feedback-nome">Nome <span>(opcional)</span></label>
@@ -260,7 +260,9 @@
     </div>
   </footer>
 
+  <script src="componentes/config.js"></script>
   <script src="componentes/storage.js"></script>
+  <script src="componentes/supabase.js"></script>
   <script src="componentes/script.js"></script>
 </body>
 </html>

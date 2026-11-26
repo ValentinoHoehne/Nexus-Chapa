@@ -1,0 +1,65 @@
+name: Deploy Pages (Supabase)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+
+      # Antes de gerar config.js: o guard de "config vazio" precisa do arquivo versionado.
+      - name: Testar antes de publicar
+        run: node --test tests/
+
+      - name: Gerar config.js a partir dos Secrets
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          set -eu
+          case "$SUPABASE_URL" in
+            https://*.supabase.co) ;;
+            *) echo "SUPABASE_URL deve ser https://<projeto>.supabase.co"; exit 1 ;;
+          esac
+          test -n "$SUPABASE_KEY" || { echo "SUPABASE_PUBLISHABLE_KEY ausente"; exit 1; }
+          case "$SUPABASE_KEY" in
+            sb_secret_*|sb_secret) echo "Chave de servico recusada"; exit 1 ;;
+          esac
+          if printf '%s' "$SUPABASE_KEY" | grep -q '^eyJ'; then
+            payload=$(printf '%s' "$SUPABASE_KEY" | cut -d. -f2 | tr '_-' '/+' | base64 -d 2>/dev/null || true)
+            if printf '%s' "$payload" | grep -Eq '"role"[[:space:]]*:[[:space:]]*"(service_role|service)"'; then
+              echo "Chave de servico recusada"; exit 1
+            fi
+          fi
+          printf 'window.NEXUS_CONFIG = %s;\n' "$(jq -n --arg url "$SUPABASE_URL" --arg key "$SUPABASE_KEY" '{supabaseUrl:$url, supabaseKey:$key}')" > componentes/config.js
+
+      - name: Versionar config.js no HTML
+        env:
+          VERSAO: ${{ github.sha }}
+        run: |
+          sed -i "s#componentes/config.js#componentes/config.js?v=$VERSAO#g" index.html admin.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - id: deploy
+        uses: actions/deploy-pages@v4

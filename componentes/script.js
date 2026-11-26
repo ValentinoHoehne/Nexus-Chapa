@@ -15,20 +15,50 @@ if (navegacao && navegacao.type === 'reload') {
   });
 }
 
-// Feedback salvo neste navegador. Para usar outro destino (ex.: Supabase),
-// defina window.NexusStorageAdapter antes de storage.js — a UI não muda.
+// Duas formas de envio: Supabase (quando configurado no deploy) ou protótipo local.
+// window.NexusStorageAdapter continua podendo substituir o destino nos testes.
 const form = document.querySelector('#feedback-form');
 const submit = document.querySelector('#feedback-submit');
 const status = document.querySelector('#feedback-status');
 const mensagem = document.querySelector('#feedback-mensagem');
 const nome = document.querySelector('#feedback-nome');
+const nota = document.querySelector('#feedback-nota');
+
+const modoSupabase = Boolean(
+  window.NexusStorageSupabase && window.NexusStorageSupabase.estaConfigurado()
+);
+document.documentElement.dataset.modo = modoSupabase ? 'supabase' : 'local';
+
+const textos = modoSupabase
+  ? {
+      nota: 'Sua ideia é enviada à chapa NEXUS. Não pedimos login e o nome é opcional.',
+      salvando: 'Enviando...',
+      sucesso: 'Ideia enviada. Obrigado!',
+      erro: 'Não foi possível enviar. Tente de novo.'
+    }
+  : {
+      nota: 'Protótipo local: a mensagem fica salva apenas neste navegador, neste dispositivo. Ela não é enviada à chapa.',
+      salvando: 'Salvando neste navegador...',
+      sucesso: 'Ideia salva neste navegador. Ela ainda não é enviada à chapa.',
+      erro: 'Não foi possível salvar neste navegador. Tente de novo.'
+    };
+
+if (nota) {
+  nota.textContent = textos.nota;
+}
+
 let storage = null;
 try {
-  storage = NexusStorage.criarStorage(
-    window.NexusStorageAdapter || NexusStorage.criarAdapterLocalStorage()
+  const adapter = window.NexusStorageAdapter || (
+    modoSupabase
+      ? window.NexusStorageSupabase.criarAdapter()
+      : NexusStorage.criarAdapterLocalStorage()
   );
+  storage = NexusStorage.criarStorage(adapter);
 } catch (erro) {
-  status.textContent = 'Não foi possível acessar o armazenamento deste navegador.';
+  status.textContent = modoSupabase
+    ? 'Não foi possível iniciar o envio. Tente recarregar a página.'
+    : 'Não foi possível acessar o armazenamento deste navegador.';
   status.className = 'form-status is-error';
   submit.disabled = true;
 }
@@ -48,18 +78,18 @@ form.addEventListener('submit', async (event) => {
 
   mensagem.removeAttribute('aria-invalid');
   submit.disabled = true;
-  submit.textContent = 'Salvando...';
-  status.textContent = 'Salvando neste navegador...';
+  submit.textContent = textos.salvando;
+  status.textContent = textos.salvando;
   status.className = 'form-status';
 
   try {
     await storage.create({ nome: nome.value, mensagem: mensagem.value });
     form.reset();
-    status.textContent = 'Ideia salva neste navegador. Ela ainda não é enviada à chapa.';
+    status.textContent = textos.sucesso;
     status.className = 'form-status is-success';
   } catch (erro) {
     const invalido = erro && erro.name === 'ValidationError';
-    status.textContent = invalido ? erro.message : 'Não foi possível salvar neste navegador. Tente de novo.';
+    status.textContent = invalido ? erro.message : textos.erro;
     status.className = 'form-status is-error';
     if (invalido) {
       mensagem.setAttribute('aria-invalid', 'true');

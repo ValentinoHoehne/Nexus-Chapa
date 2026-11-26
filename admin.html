@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <meta name="description" content="Painel local da Chapa NEXUS para visualizar e gerenciar as ideias salvas neste navegador.">
+  <meta name="description" content="Painel interno da Chapa NEXUS para visualizar e gerenciar ideias.">
   <meta name="theme-color" content="#100E16">
   <title>Painel de ideias — NEXUS</title>
   <link rel="icon" href="assets/nexus-mark.png" type="image/png">
@@ -21,7 +21,7 @@
       <a class="brand" href="index.html">
         <img class="brand__mark" src="assets/nexus-mark.png" alt="" width="32" height="32">
         <span class="brand__word">NEXUS</span>
-        <span class="brand__sub">painel local</span>
+        <span class="brand__sub" id="admin-brand-sub">painel local</span>
       </a>
       <nav class="nav-desktop" aria-label="Navegação do painel">
         <a href="index.html">Voltar ao site</a>
@@ -31,43 +31,65 @@
 
   <main id="conteudo" class="admin shell">
     <p class="kicker">Chapa NEXUS · área interna</p>
-    <h1>Ideias salvas neste navegador</h1>
-    <p class="admin-notice" role="note">
+    <h1 id="admin-titulo">Ideias salvas neste navegador</h1>
+    <p id="admin-notice" class="admin-notice" role="note">
       Este é um protótipo local. As ideias ficam apenas neste navegador e neste dispositivo;
       elas <strong>não são enviadas</strong> à chapa. Abrir o site em outro navegador ou apagar
       os dados do site faz as mensagens desaparecerem.
     </p>
 
-    <div class="admin-toolbar">
-      <label class="visually-hidden" for="admin-busca">Buscar ideias</label>
-      <input id="admin-busca" type="search" placeholder="Buscar por nome, mensagem ou data" autocomplete="off">
-      <button class="btn btn--ghost" type="button" id="admin-exportar">Exportar CSV</button>
+    <section id="admin-login" class="admin-login" aria-labelledby="admin-login-titulo" hidden>
+      <h2 id="admin-login-titulo">Área restrita</h2>
+      <p>Entre com a conta da chapa para ler, editar e excluir as ideias enviadas.</p>
+      <form id="admin-login-form" novalidate>
+        <div class="field">
+          <label for="admin-login-email">E-mail</label>
+          <input id="admin-login-email" name="email" type="email" autocomplete="username" required placeholder="voce@exemplo.com">
+        </div>
+        <div class="field">
+          <label for="admin-login-senha">Senha</label>
+          <input id="admin-login-senha" name="senha" type="password" autocomplete="current-password" required>
+        </div>
+        <p id="admin-login-status" class="admin-erro" role="alert" hidden></p>
+        <div class="form-actions">
+          <button class="btn btn--primary" type="submit" id="admin-login-submit">Entrar</button>
+        </div>
+      </form>
+    </section>
+
+    <div id="admin-painel">
+      <div class="admin-toolbar">
+        <label class="visually-hidden" for="admin-busca">Buscar ideias</label>
+        <input id="admin-busca" type="search" placeholder="Buscar por nome, mensagem ou data" autocomplete="off">
+        <button class="btn btn--ghost" type="button" id="admin-exportar">Exportar CSV</button>
+        <button class="btn btn--ghost" type="button" id="admin-sair" hidden>Sair</button>
+      </div>
+
+      <p id="admin-contagem" class="admin-contagem" role="status" aria-live="polite">Carregando…</p>
+      <p id="admin-erro" class="admin-erro" role="alert" hidden></p>
+
+      <div class="admin-tabela-wrap" role="region" aria-label="Tabela de ideias" tabindex="0">
+        <table class="admin-tabela">
+          <caption class="visually-hidden">Ideias enviadas</caption>
+          <thead>
+            <tr>
+              <th scope="col">Data</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Mensagem</th>
+              <th scope="col"><span class="visually-hidden">Ações</span></th>
+            </tr>
+          </thead>
+          <tbody id="admin-linhas"></tbody>
+        </table>
+      </div>
+
+      <p id="admin-vazio" class="admin-vazio" hidden>
+        Nenhuma ideia por aqui ainda. <a href="index.html#feedback">Escrever uma ideia</a>.
+      </p>
+      <p id="admin-sem-resultados" class="admin-vazio" hidden>
+        Nenhuma ideia corresponde à busca.
+      </p>
     </div>
-
-    <p id="admin-contagem" class="admin-contagem" role="status" aria-live="polite">Carregando…</p>
-    <p id="admin-erro" class="admin-erro" role="alert" hidden></p>
-
-    <div class="admin-tabela-wrap" role="region" aria-label="Tabela de ideias salvas" tabindex="0">
-      <table class="admin-tabela">
-        <caption class="visually-hidden">Ideias salvas neste navegador</caption>
-        <thead>
-          <tr>
-            <th scope="col">Data</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Mensagem</th>
-            <th scope="col"><span class="visually-hidden">Ações</span></th>
-          </tr>
-        </thead>
-        <tbody id="admin-linhas"></tbody>
-      </table>
-    </div>
-
-    <p id="admin-vazio" class="admin-vazio" hidden>
-      Nenhuma ideia salva por aqui ainda. <a href="index.html#feedback">Escrever uma ideia</a>.
-    </p>
-    <p id="admin-sem-resultados" class="admin-vazio" hidden>
-      Nenhuma ideia corresponde à busca.
-    </p>
 
     <template id="linha-template">
       <tr>
@@ -104,7 +126,7 @@
 
     <dialog id="admin-confirmar" aria-labelledby="admin-confirmar-titulo">
       <h2 id="admin-confirmar-titulo">Excluir esta ideia?</h2>
-      <p>Isso apaga o registro deste navegador e não pode ser desfeito.</p>
+      <p id="admin-confirmar-texto">Isso apaga o registro deste navegador e não pode ser desfeito.</p>
       <div class="form-actions">
         <button class="btn btn--primary" type="button" id="admin-confirmar-sim">Excluir</button>
         <button class="btn btn--ghost" type="button" id="admin-confirmar-nao">Cancelar</button>
@@ -112,7 +134,9 @@
     </dialog>
   </main>
 
+  <script src="componentes/config.js"></script>
   <script src="componentes/storage.js"></script>
+  <script src="componentes/supabase.js"></script>
   <script src="componentes/admin.js"></script>
 </body>
 </html>

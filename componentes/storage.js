@@ -1,8 +1,8 @@
 /*
  * Camada de dados do "Mande sua ideia".
- * Hoje usa localStorage. No futuro basta definir window.NexusStorageAdapter
- * com create/list/update/remove/export antes deste arquivo para trocar por Supabase,
- * sem alterar o formulário nem o painel.
+ * No modo local usa localStorage. Quando componentes/config.js traz a URL e a
+ * chave publicáveis, o adapter Supabase substitui este armazenamento sem alterar
+ * o formulário nem o painel. Também aceita window.NexusStorageAdapter injetado.
  */
 (function (root) {
   'use strict';

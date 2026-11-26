@@ -19,7 +19,7 @@ Identidade **Lunar Forest** levada ao extremo editorial: fundo carvão `#100E16`
 
 Cinzel comanda os títulos e a marca; Spectral conduz a leitura. Cada seção tem uma composição própria — hero em duas colunas, manifesto, prioridades em escada, índice de propostas, contato em linhas, formulário aberto e chamada final em spread. As seis áreas e todas as propostas continuam no ar, com as três prioridades principais em destaque.
 
-Tudo é HTML e CSS puro. O JavaScript salva o feedback no navegador, gerencia o painel local e fecha o menu mobile.
+Tudo é HTML e CSS puro, sem frameworks. O JavaScript envia o feedback ao Supabase quando o deploy está configurado; sem configuração, mantém o protótipo local. Também gerencia o painel e fecha o menu mobile.
 
 ## ✨ O que tem
 
@@ -33,7 +33,8 @@ Tudo é HTML e CSS puro. O JavaScript salva o feedback no navegador, gerencia o 
 - Contatos: Instagram da chapa e WhatsApp de Esther Avelino e Igor Ryan, com link que abre a conversa no app.
 - Barra de 6px entre as seções em degradê roxo→lilás→musgo, com um pequeno ponto claro de conexão.
 - Símbolo lunar da Lucide (ISC) e motivo de conexão original: só retas e pontos.
-- Formulário de feedback com validação real e mensagens salvas **apenas neste navegador**.
+- Formulário de feedback com validação real: envio ao Supabase quando configurado, ou mensagens salvas **apenas neste navegador** no modo local.
+- Painel restrito por login do Supabase Auth no modo real; visitantes só enviam e somente a conta autorizada pela RLS lê, edita e apaga.
 - Fontes Cinzel e Spectral hospedadas no próprio projeto.
 - Tipografia ampliada e com contraste mais alto: corpo em 16 px, títulos maiores e textos secundários mais claros.
 - Respiro extra entre o cabeçalho fixo e o início do conteúdo.
@@ -44,24 +45,33 @@ Tudo é HTML e CSS puro. O JavaScript salva o feedback no navegador, gerencia o 
 
 **[valentinohoehne.github.io/Nexus-Chapa](https://valentinohoehne.github.io/Nexus-Chapa/)**
 
-O deploy é automático via GitHub Pages a cada push em `main`.
+O deploy é automático a cada push em `main`. Com os Secrets do Supabase configurados,
+o GitHub Actions gera `componentes/config.js` e publica no Pages. Sem eles, o site
+continua no modo local. Passo a passo em [GUIA-SUPABASE.md](GUIA-SUPABASE.md).
 
 ## 🧱 Estrutura
 
 ```text
 Nexus-Chapa/
 ├── index.html                 # entrada do site (precisa ficar na raiz para o Pages)
-├── admin.html                 # painel local das ideias (fora do menu do site)
+├── admin.html                 # painel das ideias (fora do menu do site)
 ├── README.md
+├── GUIA-SUPABASE.md           # como criar projeto, tabela, usuário e Secrets
+├── .github/workflows/deploy.yml # injeta a config pública e publica no Pages
 ├── componentes/
-│   ├── storage.js             # camada de dados (localStorage, pronta para Supabase)
+│   ├── config.js              # vazio no repo; preenchido no deploy pela Actions
+│   ├── storage.js             # camada de dados e contrato do adapter
+│   ├── supabase.js            # REST + Auth do Supabase usando só fetch
 │   ├── script.js              # formulário + fechamento do menu mobile
-│   └── admin.js               # lista, busca, edição, exclusão e CSV do painel
+│   └── admin.js               # login, lista, busca, edição, exclusão e CSV
+├── supabase/setup.sql         # tabela, trigger de datas, índice e policies de RLS
 ├── estilos/
 │   ├── styles.css             # paleta, composições, transições e responsividade
 │   └── admin.css              # estilos exclusivos do painel
 ├── tests/
 │   ├── storage.test.js        # testes do storage com node:test
+│   ├── supabase.test.js       # testes do adapter com fetch falso (sem rede)
+│   ├── config.test.js         # guard contra segredos no config.js
 │   └── manual.md              # roteiro de verificação no navegador
 └── assets/
     ├── fonts/                 # Cinzel e Spectral (self-hosted)
@@ -93,8 +103,9 @@ Depois acesse `http://127.0.0.1:8765/` — a mesma origem usada no roteiro manua
 | Barra entre seções | `estilos/styles.css` — `.doc > section::after` |
 | Destaque das três prioridades | `estilos/styles.css` — `.priority` |
 | Símbolos decorativos | `assets/icones/` (Lua Lucide ISC + conexão original) |
-| Onde as ideias são salvas | `componentes/storage.js` — chave `nexus:feedback:v1` |
-| Envio real do formulário | trocar o adapter local por um adapter Supabase em `componentes/storage.js` |
+| Onde as ideias são salvas | `componentes/supabase.js` (modo real) ou `componentes/storage.js` (chave `nexus:feedback:v1`) |
+| Ativar o envio real | `GUIA-SUPABASE.md` + Secrets `SUPABASE_URL` e `SUPABASE_PUBLISHABLE_KEY` |
+| Regras de quem vê/edita/apaga | `supabase/setup.sql` (RLS) |
 
 ## ✅ Qualidade
 
@@ -103,24 +114,26 @@ Depois acesse `http://127.0.0.1:8765/` — a mesma origem usada no roteiro manua
 - Console sem erros; fontes e scripts carregando nos caminhos corretos.
 - Respeito a `prefers-reduced-motion`.
 
-## 🗂 Protótipo local de feedback
+## 🗂 Modo local e modo Supabase
 
-O formulário salva cada ideia no `localStorage` do navegador. O painel em
-`http://127.0.0.1:8765/admin.html` lista, busca, edita, exclui e exporta CSV.
+Sem configuração (estado versionado), o formulário salva cada ideia no
+`localStorage` e o painel em `http://127.0.0.1:8765/admin.html` lista, busca,
+edita, exclui e exporta CSV.
 
-- **Não é envio:** a mensagem fica só no navegador/dispositivo usado. Visitantes
-  não enviam nada à chapa, e abrir em outro navegador não mostra as ideias.
-- **Origem importa:** `file://`, `localhost` e `github.io` são armazenamentos
-  diferentes. Use sempre a mesma origem para ver os registros.
-- **Troca futura:** para Supabase, basta definir `window.NexusStorageAdapter`
-  com `create/list/update/remove/export` antes de `storage.js`. A UI não muda.
+- **Não é envio:** no modo local a mensagem fica só no navegador/dispositivo usado.
+- **Origem importa no modo local:** `file://`, `localhost` e `github.io` são
+  armazenamentos diferentes.
+- **Modo real:** com `config.js` preenchido pela Actions, o envio vai ao Supabase;
+  visitantes só inserem e o painel pede login. A sessão do admin fica só em memória,
+  então recarregar a página pede login de novo. Ver [GUIA-SUPABASE.md](GUIA-SUPABASE.md).
 
-Testes: `node --test tests/`.
+Testes (sem rede): `node --test tests/`.
 
 ## 📌 Ainda provisório
 
-- Envio do feedback: hoje é um protótipo local, sem back-end.
-- Concorrência entre abas: a última escrita vence. Travamento real virá com o Supabase.
+- Ativar o envio real depende da criação do projeto Supabase e dos Secrets.
+- Concorrência entre abas: a última escrita vence.
+- Proteção contra inundação de envios anônimos (rate limit/CAPTCHA) fica para depois.
 
 ---
 

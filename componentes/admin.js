@@ -1,4 +1,4 @@
-/* Painel local de ideias. Usa o mesmo adaptador do formulário. */
+/* Painel de ideias: Supabase quando configurado, protótipo local quando não. */
 (function () {
   'use strict';
 
@@ -11,12 +11,34 @@
   const modeloLinha = document.querySelector('#linha-template');
   const vazio = document.querySelector('#admin-vazio');
   const semResultados = document.querySelector('#admin-sem-resultados');
+  const painel = document.querySelector('#admin-painel');
+
+  const titulo = document.querySelector('#admin-titulo');
+  const aviso = document.querySelector('#admin-notice');
+  const marcaSub = document.querySelector('#admin-brand-sub');
+  const confirmarTexto = document.querySelector('#admin-confirmar-texto');
+  const sair = document.querySelector('#admin-sair');
+
+  const login = document.querySelector('#admin-login');
+  const loginForm = document.querySelector('#admin-login-form');
+  const loginEmail = document.querySelector('#admin-login-email');
+  const loginSenha = document.querySelector('#admin-login-senha');
+  const loginStatus = document.querySelector('#admin-login-status');
+  const loginSubmit = document.querySelector('#admin-login-submit');
+
+  const modoSupabase = Boolean(
+    window.NexusStorageSupabase && window.NexusStorageSupabase.estaConfigurado()
+  );
+  document.documentElement.dataset.modo = modoSupabase ? 'supabase' : 'local';
 
   let storage;
   try {
-    storage = NexusStorage.criarStorage(
-      window.NexusStorageAdapter || NexusStorage.criarAdapterLocalStorage()
+    const adapter = window.NexusStorageAdapter || (
+      modoSupabase
+        ? window.NexusStorageSupabase.criarAdapter()
+        : NexusStorage.criarAdapterLocalStorage()
     );
+    storage = NexusStorage.criarStorage(adapter);
   } catch (erro) {
     // Mantém o painel responsivo e explica a falha em vez de travar em "Carregando…".
     const falhar = () => Promise.reject(erro);
@@ -72,13 +94,11 @@
     if (!erro) {
       return 'Não foi possível concluir. Tente de novo.';
     }
-    if (erro.name === 'StorageError') {
-      return erro.message;
-    }
-    if (erro.name === 'NotFoundError') {
-      return 'Esta ideia não existe mais.';
-    }
-    if (erro.name === 'ValidationError') {
+    if (
+      erro.name === 'StorageError' ||
+      erro.name === 'NotFoundError' ||
+      erro.name === 'ValidationError'
+    ) {
       return erro.message;
     }
     return 'Não foi possível concluir. Tente de novo.';
@@ -101,19 +121,38 @@
     erroGeral.hidden = true;
   }
 
+  function sessaoExpirada(erro) {
+    if (
+      modoSupabase &&
+      erro &&
+      erro.name === 'StorageError' &&
+      /^Sessão expirada/.test(erro.message)
+    ) {
+      mostrarLogin(erro.message);
+      return true;
+    }
+    return false;
+  }
+
   function atualizarContagem(anuncio) {
     const total = todos.length;
     const encontrados = visiveis.length;
     const termo = busca.value.trim();
+    const substantivo = modoSupabase
+      ? { uma: 'ideia enviada', varias: 'ideias enviadas', encontrada: 'ideia encontrada', encontradas: 'ideias encontradas' }
+      : { uma: 'ideia salva', varias: 'ideias salvas', encontrada: 'ideia encontrada', encontradas: 'ideias encontradas' };
 
     let texto;
     if (termo) {
-      texto = `${encontrados} de ${total} ${total === 1 ? 'ideia encontrada' : 'ideias encontradas'}`;
+      texto = `${encontrados} de ${total} ${total === 1 ? substantivo.encontrada : substantivo.encontradas}`;
     } else {
-      texto = `${total} ${total === 1 ? 'ideia salva' : 'ideias salvas'}`;
+      texto = `${total} ${total === 1 ? substantivo.uma : substantivo.varias}`;
     }
 
-    contagem.textContent = anuncio ? `${anuncio} ${texto}` : texto;
+    const final = anuncio ? `${anuncio} ${texto}` : texto;
+    if (contagem.textContent !== final) {
+      contagem.textContent = final;
+    }
   }
 
   function criarLinha(registro) {
@@ -148,16 +187,31 @@
     semResultados.hidden = !(todos.length > 0 && visiveis.length === 0);
   }
 
+  let sequencia = 0;
+
   async function carregar(anuncio) {
+    if (modoSupabase && !window.NexusStorageSupabase.sessaoAtiva()) {
+      return;
+    }
+    const atual = ++sequencia;
     try {
-      todos = await storage.list();
+      const itens = await storage.list();
+      if (atual !== sequencia) {
+        return;
+      }
+      todos = itens;
       aplicarFiltro();
       desenhar();
       atualizarContagem(anuncio);
       limparErro();
     } catch (erro) {
-      contagem.textContent = 'Ideias indisponíveis.';
-      mostrarErro(erro);
+      if (atual !== sequencia) {
+        return;
+      }
+      if (!sessaoExpirada(erro)) {
+        contagem.textContent = 'Ideias indisponíveis.';
+        mostrarErro(erro);
+      }
     }
   }
 
@@ -176,12 +230,89 @@
   function devolverFoco(dialog, obterBotao) {
     dialog.addEventListener('close', () => {
       const botao = obterBotao();
-      if (botao && botao.isConnected) {
+      if (botao && botao.isConnected && !painel.hidden) {
         botao.focus();
-      } else {
+      } else if (!painel.hidden) {
         busca.focus();
       }
     });
+  }
+
+  function mostrarLogin(mensagem) {
+    if (!modoSupabase) {
+      return;
+    }
+    if (dialogEditar.open) {
+      dialogEditar.close();
+    }
+    if (dialogConfirmar.open) {
+      dialogConfirmar.close();
+    }
+    idEmEdicao = null;
+    idParaExcluir = null;
+    sequencia += 1;
+    todos = [];
+    visiveis = [];
+    linhas.replaceChildren();
+    painel.hidden = true;
+    login.hidden = false;
+    loginSenha.value = '';
+    loginStatus.textContent = mensagem || '';
+    loginStatus.hidden = !mensagem;
+    loginEmail.focus();
+  }
+
+  function mostrarPainel(anuncio) {
+    login.hidden = true;
+    painel.hidden = false;
+    carregar(anuncio);
+  }
+
+  if (modoSupabase) {
+    marcaSub.textContent = 'área restrita';
+    titulo.textContent = 'Ideias enviadas pela comunidade';
+    aviso.textContent = 'Área restrita da chapa. As ideias enviadas pelo site ficam salvas no banco da chapa; ler, editar e excluir exige login.';
+    confirmarTexto.textContent = 'Isso apaga o registro enviado e não pode ser desfeito.';
+    sair.hidden = false;
+
+    if (window.NexusStorageSupabase.sessaoAtiva()) {
+      mostrarPainel();
+    } else {
+      mostrarLogin();
+      contagem.textContent = 'Entre para ver as ideias.';
+    }
+
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!loginForm.reportValidity()) {
+        return;
+      }
+
+      loginStatus.hidden = true;
+      loginSubmit.disabled = true;
+      loginSubmit.textContent = 'Entrando...';
+      try {
+        await window.NexusStorageSupabase.login(loginEmail.value, loginSenha.value);
+        loginSenha.value = '';
+        mostrarPainel('Ideias carregadas.');
+        busca.focus();
+      } catch (erro) {
+        loginStatus.textContent = mensagemErro(erro);
+        loginStatus.hidden = false;
+        registrarErro(erro);
+      } finally {
+        loginSubmit.disabled = false;
+        loginSubmit.textContent = 'Entrar';
+      }
+    });
+
+    sair.addEventListener('click', async () => {
+      await window.NexusStorageSupabase.logout();
+      limparErro();
+      mostrarLogin();
+    });
+  } else {
+    carregar();
   }
 
   busca.addEventListener('input', () => {
@@ -203,7 +334,9 @@
       window.setTimeout(() => URL.revokeObjectURL(url), 1000);
       limparErro();
     } catch (erro) {
-      mostrarErro(erro);
+      if (!sessaoExpirada(erro)) {
+        mostrarErro(erro);
+      }
     }
   });
 
@@ -260,9 +393,11 @@
       await carregar('Ideia atualizada.');
       focarDepois(idEditado, 'admin-editar');
     } catch (erro) {
-      erroEdicao.textContent = mensagemErro(erro);
-      erroEdicao.hidden = false;
-      registrarErro(erro);
+      if (!sessaoExpirada(erro)) {
+        erroEdicao.textContent = mensagemErro(erro);
+        erroEdicao.hidden = false;
+        registrarErro(erro);
+      }
     }
   });
 
@@ -283,7 +418,9 @@
       focarDepois(null);
     } catch (erro) {
       dialogConfirmar.close();
-      mostrarErro(erro);
+      if (!sessaoExpirada(erro)) {
+        mostrarErro(erro);
+      }
     } finally {
       confirmarSim.disabled = false;
       idParaExcluir = null;
@@ -293,11 +430,23 @@
   devolverFoco(dialogEditar, () => voltarFocoEdicao);
   devolverFoco(dialogConfirmar, () => voltarFocoExclusao);
 
-  window.addEventListener('storage', (event) => {
-    if (event.key === NexusStorage.CHAVE) {
-      carregar();
-    }
-  });
-
-  carregar();
+  if (modoSupabase) {
+    // sessionStorage não dispara evento entre abas; atualiza ao voltar à aba.
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && !painel.hidden) {
+        carregar();
+      }
+    });
+    window.setInterval(() => {
+      if (document.visibilityState === 'visible' && !painel.hidden) {
+        carregar();
+      }
+    }, 30000);
+  } else {
+    window.addEventListener('storage', (event) => {
+      if (event.key === NexusStorage.CHAVE) {
+        carregar();
+      }
+    });
+  }
 })();
