@@ -33,7 +33,7 @@ Tudo é HTML e CSS puro, sem frameworks. O JavaScript envia o feedback ao Supaba
 - Contatos: Instagram da chapa e WhatsApp de Esther Avelino e Igor Ryan, com link que abre a conversa no app.
 - Barra de 6px entre as seções em degradê roxo→lilás→musgo, com um pequeno ponto claro de conexão.
 - Símbolo lunar da Lucide (ISC) e motivo de conexão original: só retas e pontos.
-- Formulário de feedback com validação real: envio ao Supabase quando configurado, ou mensagens salvas **apenas neste navegador** no modo local.
+- Formulário de feedback com validação real: envio ao Supabase quando configurado, ou mensagens salvas **apenas neste navegador** no modo local. Campo honeypot escondido bloquea envios automáticos simples; no modo real, uma nota curta explica onde a mensagem fica e como pedir correção ou exclusão pelo WhatsApp da chapa.
 - Painel restrito por login do Supabase Auth no modo real; visitantes só enviam e somente as contas autorizadas pela RLS lêem, editam e apagam.
 - Fontes Cinzel e Spectral hospedadas no próprio projeto.
 - Tipografia ampliada e com contraste mais alto: corpo em 16 px, títulos maiores e textos secundários mais claros.

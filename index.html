@@ -223,7 +223,10 @@
         <h2 id="feedback-title">Mande sua ideia</h2>
       </div>
       <p>O que a gente pode fazer melhor? <strong>Escreve aqui</strong> — registre sua ideia.</p>
-      <p class="form-note" id="feedback-nota">Protótipo local: a mensagem fica salva apenas neste navegador, neste dispositivo. Ela não é enviada à chapa.</p>
+      <div class="feedback-notas">
+        <p class="form-note" id="feedback-nota">Protótipo local: a mensagem fica salva apenas neste navegador, neste dispositivo. Ela não é enviada à chapa.</p>
+        <p class="form-note form-note--privacidade" id="feedback-privacidade" hidden>Ao enviar, sua mensagem fica salva no banco da chapa NEXUS e só os administradores a leem. Para corrigir ou apagar, fale com a Esther pelo <a href="https://wa.me/5519992597201" target="_blank" rel="noopener noreferrer">WhatsApp</a> ou veja os <a href="#contato">outros contatos</a>.</p>
+      </div>
 
       <!-- Persistência em componentes/storage.js; o envio ao Supabase é ativado por componentes/config.js no deploy. -->
       <form class="feedback-form" id="feedback-form" novalidate>
@@ -234,6 +237,10 @@
         <div class="field">
           <label for="feedback-mensagem">Mensagem</label>
           <textarea id="feedback-mensagem" name="mensagem" rows="5" required minlength="10" maxlength="2000" aria-describedby="feedback-status" placeholder="Escreva sua sugestão, crítica ou ideia"></textarea>
+        </div>
+        <div class="honeypot" aria-hidden="true">
+          <label for="feedback-site">Deixe este campo em branco</label>
+          <input id="feedback-site" name="site" type="text" tabindex="-1" autocomplete="off">
         </div>
         <div class="form-actions">
           <button class="btn btn--primary" type="submit" id="feedback-submit">Enviar feedback</button>

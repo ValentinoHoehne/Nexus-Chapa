@@ -873,12 +873,34 @@ h3 {
   color: var(--text-secondary);
 }
 
-.form-note {
+.feedback-notas {
   grid-column: 2;
   grid-row: 2;
+}
+
+.form-note {
   color: var(--text-muted);
   font-size: 13.5px;
   margin-top: 10px;
+}
+
+.form-note + .form-note {
+  margin-top: 6px;
+}
+
+.form-note--privacidade a {
+  color: var(--text-secondary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .feedback-form {
@@ -1185,7 +1207,7 @@ h3 {
   #contato > p,
   .contact-list,
   #feedback > p:not(.form-note),
-  .form-note,
+  .feedback-notas,
   .feedback-form,
   .final-cta .kicker,
   .final-cta h2,

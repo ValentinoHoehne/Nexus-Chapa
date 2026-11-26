@@ -23,11 +23,17 @@ const status = document.querySelector('#feedback-status');
 const mensagem = document.querySelector('#feedback-mensagem');
 const nome = document.querySelector('#feedback-nome');
 const nota = document.querySelector('#feedback-nota');
+const privacidade = document.querySelector('#feedback-privacidade');
+const site = document.querySelector('#feedback-site');
 
 const modoSupabase = Boolean(
   window.NexusStorageSupabase && window.NexusStorageSupabase.estaConfigurado()
 );
 document.documentElement.dataset.modo = modoSupabase ? 'supabase' : 'local';
+
+if (privacidade) {
+  privacidade.hidden = !modoSupabase;
+}
 
 const textos = modoSupabase
   ? {
@@ -66,6 +72,15 @@ try {
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
   if (!storage) {
+    return;
+  }
+
+  // Honeypot: bots preenchem todos os campos; quem é humano deixa em branco.
+  // Resposta falsa para não ensinar ao robô que ele foi bloqueado.
+  if (site && site.value.trim()) {
+    form.reset();
+    status.textContent = textos.sucesso;
+    status.className = 'form-status is-success';
     return;
   }
 

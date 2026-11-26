@@ -57,6 +57,31 @@ test('setup.sql usa tabela de administradores sem placeholder', () => {
   assert.match(sql, /public\.nexus_eh_admin\(\)/);
 });
 
+test('formulario tem honeypot que bloqueia antes do create', () => {
+  const html = fs.readFileSync(path.join(raiz, 'index.html'), 'utf8');
+  const js = fs.readFileSync(path.join(raiz, 'componentes', 'script.js'), 'utf8');
+  const css = fs.readFileSync(path.join(raiz, 'estilos', 'styles.css'), 'utf8');
+  assert.match(html, /class="honeypot" aria-hidden="true"/);
+  assert.match(html, /id="feedback-site"[^>]*tabindex="-1"[^>]*autocomplete="off"/);
+  assert.match(css, /\.honeypot\s*\{[^}]*clip-path: inset\(50%\)/);
+  const bloqueio = js.indexOf('site.value.trim()');
+  const envio = js.indexOf('storage.create');
+  assert.ok(bloqueio >= 0 && bloqueio < envio, 'honeypot precisa barrar antes de enviar');
+});
+
+test('nota de privacidade aparece so no modo Supabase e reusa contato existente', () => {
+  const html = fs.readFileSync(path.join(raiz, 'index.html'), 'utf8');
+  const js = fs.readFileSync(path.join(raiz, 'componentes', 'script.js'), 'utf8');
+  assert.match(html, /id="feedback-privacidade" hidden/);
+  assert.match(js, /privacidade\.hidden = !modoSupabase/);
+  const trecho = html.match(/<p class="form-note form-note--privacidade"[\s\S]*?<\/p>/);
+  assert.ok(trecho, 'nota de privacidade ausente');
+  const telefones = [...html.matchAll(/https:\/\/wa\.me\/(\d+)/g)].map((m) => m[1]);
+  const daNota = trecho[0].match(/https:\/\/wa\.me\/(\d+)/);
+  assert.ok(daNota, 'nota de privacidade precisa linkar para um WhatsApp');
+  assert.ok(telefones.includes(daNota[1]), ' WhatsApp da nota nao existe nos contatos do site');
+});
+
 test('scripts carregam na ordem config -> storage -> supabase -> pagina', () => {
   for (const nome of ['index.html', 'admin.html']) {
     const html = fs.readFileSync(path.join(raiz, nome), 'utf8');
