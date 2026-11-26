@@ -86,6 +86,17 @@ test('nota de privacidade aparece so no modo Supabase e reusa contato existente'
   assert.ok(telefones.includes(daNota[1]), ' WhatsApp da nota nao existe nos contatos do site');
 });
 
+test('login do painel nao pede autocomplete de credenciais salvas', () => {
+  const html = fs.readFileSync(path.join(raiz, 'admin.html'), 'utf8');
+  const email = html.match(/<input id="admin-login-email"[^>]*>/);
+  const senha = html.match(/<input id="admin-login-senha"[^>]*>/);
+  assert.ok(email && senha, 'campos de login ausentes');
+  assert.doesNotMatch(email[0], /autocomplete="username"/);
+  assert.doesNotMatch(senha[0], /autocomplete="current-password"/);
+  assert.match(email[0], /autocomplete="off"/);
+  assert.match(senha[0], /autocomplete="new-password"/);
+});
+
 test('scripts carregam na ordem config -> storage -> supabase -> pagina', () => {
   for (const nome of ['index.html', 'admin.html']) {
     const html = fs.readFileSync(path.join(raiz, nome), 'utf8');

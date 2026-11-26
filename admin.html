@@ -44,11 +44,12 @@
       <form id="admin-login-form" novalidate>
         <div class="field">
           <label for="admin-login-email">E-mail</label>
-          <input id="admin-login-email" name="email" type="email" autocomplete="username" required placeholder="voce@exemplo.com">
+          <input id="admin-login-email" name="email" type="email" autocomplete="off" required placeholder="voce@exemplo.com">
         </div>
         <div class="field">
           <label for="admin-login-senha">Senha</label>
-          <input id="admin-login-senha" name="senha" type="password" autocomplete="current-password" required>
+          <!-- "new-password" impede que o navegador preencha uma credencial ja salva neste login. -->
+          <input id="admin-login-senha" name="senha" type="password" autocomplete="new-password" required>
         </div>
         <p id="admin-login-status" class="admin-erro" role="alert" hidden></p>
         <div class="form-actions">
