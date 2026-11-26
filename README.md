@@ -30,7 +30,7 @@ Tudo é HTML e CSS puro. O único JavaScript simula o envio do feedback e fecha 
 - Botão principal em degradê lilás→branco-quente (`#D9D0DF`), com contraste alto sobre o fundo escuro.
 - Prioridades em destaque sobre painéis planos e recuados: Voz e Transparência, Esporte e Competição, Cultura e Entretenimento.
 - Outras propostas em índice discreto: Educação e Futuro, Bem-estar e Acolhimento e Período Noturno (complementar).
-- Contatos: Instagram da chapa e telefones de Esther Avelino e Igor Ryan, com link direto para ligação.
+- Contatos: Instagram da chapa e WhatsApp de Esther Avelino e Igor Ryan, com link que abre a conversa no app.
 - Barra de 6px entre as seções em degradê roxo→lilás→musgo, com um pequeno ponto claro de conexão.
 - Símbolo lunar da Lucide (ISC) e motivo de conexão original: só retas e pontos.
 - Formulário de feedback com validação, estado de envio e mensagem de sucesso **simulados**.
