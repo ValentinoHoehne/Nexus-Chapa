@@ -42,7 +42,7 @@ test('workflow recusa chave de servico e valida a URL', () => {
 
 test('workflow testa antes de gerar config e versiona o script no HTML', () => {
   const fluxo = fs.readFileSync(path.join(raiz, '.github', 'workflows', 'deploy.yml'), 'utf8');
-  const teste = fluxo.indexOf('node --test tests/');
+  const teste = fluxo.indexOf('node --test tests/*.test.js');
   const geracao = fluxo.indexOf('> componentes/config.js');
   const versionamento = fluxo.indexOf('config.js?v=$VERSAO');
   const upload = fluxo.indexOf('upload-pages-artifact');

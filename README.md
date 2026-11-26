@@ -127,7 +127,7 @@ edita, exclui e exporta CSV.
   visitantes só inserem e o painel pede login. A sessão do admin fica só em memória,
   então recarregar a página pede login de novo. Ver [GUIA-SUPABASE.md](GUIA-SUPABASE.md).
 
-Testes (sem rede): `node --test tests/`.
+Testes (sem rede): `node --test tests/*.test.js`.
 
 ## 📌 Ainda provisório
 

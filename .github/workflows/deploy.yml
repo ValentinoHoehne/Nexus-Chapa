@@ -27,7 +27,7 @@ jobs:
 
       # Antes de gerar config.js: o guard de "config vazio" precisa do arquivo versionado.
       - name: Testar antes de publicar
-        run: node --test tests/
+        run: node --test tests/*.test.js
 
       - name: Gerar config.js a partir dos Secrets
         env:

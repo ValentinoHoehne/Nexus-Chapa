@@ -70,7 +70,7 @@ para **GitHub Actions**.
 
 O arquivo `.github/workflows/deploy.yml`:
 
-1. roda `node --test tests/` **antes** de gerar a config;
+1. roda `node --test tests/*.test.js` **antes** de gerar a config;
 2. valida a URL (`https://....supabase.co`) e recusa chaves de servidor;
 3. gera `componentes/config.js` com os segredos;
 4. grava `componentes/config.js?v=<commit>` nos dois HTML para evitar cache antigo.
@@ -115,4 +115,4 @@ O arquivo versionado fica vazio. Assim nenhuma chave entra no repositório.
 
 Com `componentes/config.js` vazio (estado versionado), o site segue funcionando
 como protótipo local em `http://127.0.0.1:8765/`. Isso permite desenvolver e
-rodar os testes sem rede: `node --test tests/`.
+rodar os testes sem rede: `node --test tests/*.test.js`.
