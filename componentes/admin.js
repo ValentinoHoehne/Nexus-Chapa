@@ -437,11 +437,12 @@
         carregar();
       }
     });
+    // Enquanto a aba estiver visível e o painel aberto, busca novas ideias a cada 10s.
     window.setInterval(() => {
       if (document.visibilityState === 'visible' && !painel.hidden) {
         carregar();
       }
-    }, 30000);
+    }, 10000);
   } else {
     window.addEventListener('storage', (event) => {
       if (event.key === NexusStorage.CHAVE) {

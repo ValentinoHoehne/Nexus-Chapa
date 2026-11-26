@@ -86,6 +86,15 @@ test('nota de privacidade aparece so no modo Supabase e reusa contato existente'
   assert.ok(telefones.includes(daNota[1]), ' WhatsApp da nota nao existe nos contatos do site');
 });
 
+test('painel atualiza a lista sozinho com a aba aberta', () => {
+  const js = fs.readFileSync(path.join(raiz, 'componentes', 'admin.js'), 'utf8');
+  const intervalo = js.match(/window\.setInterval\(\(\) => \{[\s\S]*?\}, 10000\)/);
+  assert.ok(intervalo, 'painel precisa consultar a lista a cada 10 segundos');
+  assert.match(intervalo[0], /document\.visibilityState === 'visible'/);
+  assert.match(intervalo[0], /!painel\.hidden/);
+  assert.match(intervalo[0], /carregar\(\)/);
+});
+
 test('login do painel nao pede autocomplete de credenciais salvas', () => {
   const html = fs.readFileSync(path.join(raiz, 'admin.html'), 'utf8');
   const email = html.match(/<input id="admin-login-email"[^>]*>/);

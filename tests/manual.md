@@ -11,7 +11,8 @@ Use sempre a mesma origem: `http://127.0.0.1:8765/`.
 7. Excluir: confirmar cancela e confirma remove; o foco volta para um controle do painel.
 8. Exportar CSV: abrir o arquivo e conferir BOM, cabeçalho e que uma mensagem
    começando com `=HYPERLINK(...)` aparece com `'` na frente.
-9. Abrir outra aba do painel e enviar uma ideia nova: a primeira aba atualiza sozinha.
+9. Abrir outra aba do painel e enviar uma ideia nova: com a aba visível e o painel
+   aberto, a primeira aba atualiza sozinha em até 10 segundos, sem dar F5.
 10. Fechar e reabrir o navegador (mesma origem): os registros continuam lá.
 11. Preencher o campo oculto `#feedback-site` pelo DevTools e enviar: aparece a
     resposta de sucesso, mas nenhum registro novo é criado.
