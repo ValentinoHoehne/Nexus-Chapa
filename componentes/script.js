@@ -56,8 +56,24 @@ mensagem.addEventListener('input', () => {
 });
 
 // Fecha o menu mobile depois de navegar para uma seção.
+const menu = document.querySelector('.nav-mobile');
+const menuSummary = menu.querySelector('summary');
+
 document.querySelectorAll('.nav-mobile__panel a').forEach((link) => {
   link.addEventListener('click', () => {
-    document.querySelector('.nav-mobile').open = false;
+    menu.open = false;
   });
+});
+
+document.addEventListener('click', (event) => {
+  if (menu.open && !menu.contains(event.target)) {
+    menu.open = false;
+  }
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && menu.open) {
+    menu.open = false;
+    menuSummary.focus();
+  }
 });

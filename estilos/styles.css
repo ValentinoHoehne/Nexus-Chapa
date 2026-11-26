@@ -66,6 +66,21 @@ html {
   overflow-x: clip;
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + 24px);
+  scrollbar-color: var(--accent) var(--bg);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border: 2px solid var(--bg);
 }
 
 body {
@@ -95,6 +110,7 @@ h1, h2, h3, p, dl, dd, ol, ul {
 h1, h2, h3 {
   font-family: "Cinzel", Georgia, serif;
   letter-spacing: -0.025em;
+  text-wrap: balance;
 }
 
 h2 {
@@ -213,7 +229,7 @@ h3 {
   font-family: var(--font-ui);
   font-size: 12px;
   white-space: nowrap;
-  padding: 6px 0;
+  padding: 11px 0;
   border-bottom: 1px solid transparent;
   transition: color 160ms var(--ease), border-color 160ms var(--ease);
 }
@@ -225,7 +241,7 @@ h3 {
 
 .nav-desktop .nav-cta {
   color: var(--text);
-  padding: 7px 13px;
+  padding: 10px 13px;
   border: 1px solid var(--hairline-strong);
   border-radius: var(--radius-control);
   transition: background-color 160ms var(--ease), border-color 160ms var(--ease);
@@ -902,6 +918,7 @@ h3 {
   border: 1px solid var(--hairline-strong);
   border-radius: var(--radius-control);
   color: var(--text);
+  caret-color: var(--accent-soft);
   font: inherit;
   font-size: 15px;
   padding: 10px 14px;
@@ -978,6 +995,7 @@ h3 {
 }
 
 .form-status {
+  min-height: 22px;
   font-size: 13px;
   color: var(--text-secondary);
 }
@@ -1060,6 +1078,9 @@ h3 {
 }
 
 .site-footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
   color: var(--text-secondary);
 }
 
@@ -1100,7 +1121,10 @@ h3 {
   .nav-mobile summary {
     list-style: none;
     cursor: pointer;
-    padding: 6px 12px;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 6px 14px;
     border: 1px solid var(--hairline-strong);
     border-radius: var(--radius-control);
     font-family: var(--font-ui);
@@ -1326,6 +1350,10 @@ h3 {
   .site-footer__inner {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .site-footer a {
+    min-height: 40px;
   }
 }
 
