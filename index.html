@@ -222,18 +222,18 @@
         <p class="section-index">05 <span>/</span></p>
         <h2 id="feedback-title">Mande sua ideia</h2>
       </div>
-      <p>O que a gente pode fazer melhor? <strong>Escreve aqui</strong> — sua mensagem chega para a chapa.</p>
-      <p class="form-note">Envio em demonstração. A conexão com o sistema entra em breve.</p>
+      <p>O que a gente pode fazer melhor? <strong>Escreve aqui</strong> — registre sua ideia.</p>
+      <p class="form-note">Protótipo local: a mensagem fica salva apenas neste navegador, neste dispositivo. Ela não é enviada à chapa.</p>
 
-      <!-- Quando o back-end existir: troque o handler em componentes/script.js por um fetch() para a API. -->
+      <!-- Persistência em componentes/storage.js. Troque o adapter por Supabase sem mudar este formulário. -->
       <form class="feedback-form" id="feedback-form" novalidate>
         <div class="field">
           <label for="feedback-nome">Nome <span>(opcional)</span></label>
-          <input id="feedback-nome" name="nome" type="text" autocomplete="name" placeholder="Como podemos te chamar">
+          <input id="feedback-nome" name="nome" type="text" autocomplete="name" maxlength="80" placeholder="Como podemos te chamar">
         </div>
         <div class="field">
           <label for="feedback-mensagem">Mensagem</label>
-          <textarea id="feedback-mensagem" name="mensagem" rows="5" required minlength="10" placeholder="Escreva sua sugestão, crítica ou ideia"></textarea>
+          <textarea id="feedback-mensagem" name="mensagem" rows="5" required minlength="10" maxlength="2000" aria-describedby="feedback-status" placeholder="Escreva sua sugestão, crítica ou ideia"></textarea>
         </div>
         <div class="form-actions">
           <button class="btn btn--primary" type="submit" id="feedback-submit">Enviar feedback</button>
@@ -260,6 +260,7 @@
     </div>
   </footer>
 
+  <script src="componentes/storage.js"></script>
   <script src="componentes/script.js"></script>
 </body>
 </html>

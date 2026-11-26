@@ -19,7 +19,7 @@ Identidade **Lunar Forest** levada ao extremo editorial: fundo carvão `#100E16`
 
 Cinzel comanda os títulos e a marca; Spectral conduz a leitura. Cada seção tem uma composição própria — hero em duas colunas, manifesto, prioridades em escada, índice de propostas, contato em linhas, formulário aberto e chamada final em spread. As seis áreas e todas as propostas continuam no ar, com as três prioridades principais em destaque.
 
-Tudo é HTML e CSS puro. O único JavaScript simula o envio do feedback e fecha o menu mobile.
+Tudo é HTML e CSS puro. O JavaScript salva o feedback no navegador, gerencia o painel local e fecha o menu mobile.
 
 ## ✨ O que tem
 
@@ -33,7 +33,7 @@ Tudo é HTML e CSS puro. O único JavaScript simula o envio do feedback e fecha 
 - Contatos: Instagram da chapa e WhatsApp de Esther Avelino e Igor Ryan, com link que abre a conversa no app.
 - Barra de 6px entre as seções em degradê roxo→lilás→musgo, com um pequeno ponto claro de conexão.
 - Símbolo lunar da Lucide (ISC) e motivo de conexão original: só retas e pontos.
-- Formulário de feedback com validação, estado de envio e mensagem de sucesso **simulados**.
+- Formulário de feedback com validação real e mensagens salvas **apenas neste navegador**.
 - Fontes Cinzel e Spectral hospedadas no próprio projeto.
 - Tipografia ampliada e com contraste mais alto: corpo em 16 px, títulos maiores e textos secundários mais claros.
 - Respiro extra entre o cabeçalho fixo e o início do conteúdo.
@@ -51,11 +51,18 @@ O deploy é automático via GitHub Pages a cada push em `main`.
 ```text
 Nexus-Chapa/
 ├── index.html                 # entrada do site (precisa ficar na raiz para o Pages)
+├── admin.html                 # painel local das ideias (fora do menu do site)
 ├── README.md
 ├── componentes/
-│   └── script.js              # feedback simulado + fechamento do menu mobile
+│   ├── storage.js             # camada de dados (localStorage, pronta para Supabase)
+│   ├── script.js              # formulário + fechamento do menu mobile
+│   └── admin.js               # lista, busca, edição, exclusão e CSV do painel
 ├── estilos/
-│   └── styles.css             # paleta, composições, transições e responsividade
+│   ├── styles.css             # paleta, composições, transições e responsividade
+│   └── admin.css              # estilos exclusivos do painel
+├── tests/
+│   ├── storage.test.js        # testes do storage com node:test
+│   └── manual.md              # roteiro de verificação no navegador
 └── assets/
     ├── fonts/                 # Cinzel e Spectral (self-hosted)
     ├── icones/                # lua da Lucide + conexão original + LICENSE.txt (ISC)
@@ -72,10 +79,10 @@ Não há build, dependências nem etapa de instalação.
 **Ou com um servidor local estático:**
 
 ```bash
-npx serve .
+npx serve . -l 8765
 ```
 
-Depois acesse o endereço mostrado no terminal (normalmente `http://localhost:3000`).
+Depois acesse `http://127.0.0.1:8765/` — a mesma origem usada no roteiro manual.
 
 ## 🎨 Onde mexer
 
@@ -86,7 +93,8 @@ Depois acesse o endereço mostrado no terminal (normalmente `http://localhost:30
 | Barra entre seções | `estilos/styles.css` — `.doc > section::after` |
 | Destaque das três prioridades | `estilos/styles.css` — `.priority` |
 | Símbolos decorativos | `assets/icones/` (Lua Lucide ISC + conexão original) |
-| Envio real do formulário | `componentes/script.js` — trocar o `setTimeout` por `fetch()` |
+| Onde as ideias são salvas | `componentes/storage.js` — chave `nexus:feedback:v1` |
+| Envio real do formulário | trocar o adapter local por um adapter Supabase em `componentes/storage.js` |
 
 ## ✅ Qualidade
 
@@ -95,9 +103,24 @@ Depois acesse o endereço mostrado no terminal (normalmente `http://localhost:30
 - Console sem erros; fontes e scripts carregando nos caminhos corretos.
 - Respeito a `prefers-reduced-motion`.
 
+## 🗂 Protótipo local de feedback
+
+O formulário salva cada ideia no `localStorage` do navegador. O painel em
+`http://127.0.0.1:8765/admin.html` lista, busca, edita, exclui e exporta CSV.
+
+- **Não é envio:** a mensagem fica só no navegador/dispositivo usado. Visitantes
+  não enviam nada à chapa, e abrir em outro navegador não mostra as ideias.
+- **Origem importa:** `file://`, `localhost` e `github.io` são armazenamentos
+  diferentes. Use sempre a mesma origem para ver os registros.
+- **Troca futura:** para Supabase, basta definir `window.NexusStorageAdapter`
+  com `create/list/update/remove/export` antes de `storage.js`. A UI não muda.
+
+Testes: `node --test tests/`.
+
 ## 📌 Ainda provisório
 
-- Envio do feedback: hoje é apenas uma demonstração, sem back-end.
+- Envio do feedback: hoje é um protótipo local, sem back-end.
+- Concorrência entre abas: a última escrita vence. Travamento real virá com o Supabase.
 
 ---
 

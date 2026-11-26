@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Painel local da Chapa NEXUS para visualizar e gerenciar as ideias salvas neste navegador.">
+  <meta name="theme-color" content="#100E16">
+  <title>Painel de ideias — NEXUS</title>
+  <link rel="icon" href="assets/nexus-mark.png" type="image/png">
+  <link rel="preload" href="assets/fonts/cinzel-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/spectral-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="estilos/styles.css">
+  <link rel="stylesheet" href="estilos/admin.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="site-header">
+    <div class="shell site-header__inner">
+      <a class="brand" href="index.html">
+        <img class="brand__mark" src="assets/nexus-mark.png" alt="" width="32" height="32">
+        <span class="brand__word">NEXUS</span>
+        <span class="brand__sub">painel local</span>
+      </a>
+      <nav class="nav-desktop" aria-label="Navegação do painel">
+        <a href="index.html">Voltar ao site</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo" class="admin shell">
+    <p class="kicker">Chapa NEXUS · área interna</p>
+    <h1>Ideias salvas neste navegador</h1>
+    <p class="admin-notice" role="note">
+      Este é um protótipo local. As ideias ficam apenas neste navegador e neste dispositivo;
+      elas <strong>não são enviadas</strong> à chapa. Abrir o site em outro navegador ou apagar
+      os dados do site faz as mensagens desaparecerem.
+    </p>
+
+    <div class="admin-toolbar">
+      <label class="visually-hidden" for="admin-busca">Buscar ideias</label>
+      <input id="admin-busca" type="search" placeholder="Buscar por nome, mensagem ou data" autocomplete="off">
+      <button class="btn btn--ghost" type="button" id="admin-exportar">Exportar CSV</button>
+    </div>
+
+    <p id="admin-contagem" class="admin-contagem" role="status" aria-live="polite">Carregando…</p>
+    <p id="admin-erro" class="admin-erro" role="alert" hidden></p>
+
+    <div class="admin-tabela-wrap" role="region" aria-label="Tabela de ideias salvas" tabindex="0">
+      <table class="admin-tabela">
+        <caption class="visually-hidden">Ideias salvas neste navegador</caption>
+        <thead>
+          <tr>
+            <th scope="col">Data</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Mensagem</th>
+            <th scope="col"><span class="visually-hidden">Ações</span></th>
+          </tr>
+        </thead>
+        <tbody id="admin-linhas"></tbody>
+      </table>
+    </div>
+
+    <p id="admin-vazio" class="admin-vazio" hidden>
+      Nenhuma ideia salva por aqui ainda. <a href="index.html#feedback">Escrever uma ideia</a>.
+    </p>
+    <p id="admin-sem-resultados" class="admin-vazio" hidden>
+      Nenhuma ideia corresponde à busca.
+    </p>
+
+    <template id="linha-template">
+      <tr>
+        <td><time></time></td>
+        <td class="admin-nome"></td>
+        <td class="admin-mensagem"></td>
+        <td>
+          <div class="admin-acoes">
+            <button type="button" class="btn btn--ghost admin-editar">Editar</button>
+            <button type="button" class="btn btn--ghost admin-excluir">Excluir</button>
+          </div>
+        </td>
+      </tr>
+    </template>
+
+    <dialog id="admin-dialog" aria-labelledby="admin-dialog-titulo">
+      <form id="admin-form" novalidate>
+        <h2 id="admin-dialog-titulo">Editar ideia</h2>
+        <div class="field">
+          <label for="admin-editar-nome">Nome <span>(opcional)</span></label>
+          <input id="admin-editar-nome" name="nome" type="text" maxlength="80" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="admin-editar-mensagem">Mensagem</label>
+          <textarea id="admin-editar-mensagem" name="mensagem" rows="5" required minlength="10" maxlength="2000"></textarea>
+        </div>
+        <p id="admin-erro-edicao" class="admin-erro" role="alert" hidden></p>
+        <div class="form-actions">
+          <button class="btn btn--primary" type="submit">Salvar alterações</button>
+          <button class="btn btn--ghost" type="button" id="admin-cancelar">Cancelar</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="admin-confirmar" aria-labelledby="admin-confirmar-titulo">
+      <h2 id="admin-confirmar-titulo">Excluir esta ideia?</h2>
+      <p>Isso apaga o registro deste navegador e não pode ser desfeito.</p>
+      <div class="form-actions">
+        <button class="btn btn--primary" type="button" id="admin-confirmar-sim">Excluir</button>
+        <button class="btn btn--ghost" type="button" id="admin-confirmar-nao">Cancelar</button>
+      </div>
+    </dialog>
+  </main>
+
+  <script src="componentes/storage.js"></script>
+  <script src="componentes/admin.js"></script>
+</body>
+</html>

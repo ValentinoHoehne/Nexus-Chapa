@@ -15,15 +15,29 @@ if (navegacao && navegacao.type === 'reload') {
   });
 }
 
-// Feedback em demonstração. Quando o back-end existir, substitua o bloco abaixo
-// por um fetch() para a API e trate loading/erro com o mesmo #feedback-status.
+// Feedback salvo neste navegador. Para usar outro destino (ex.: Supabase),
+// defina window.NexusStorageAdapter antes de storage.js — a UI não muda.
 const form = document.querySelector('#feedback-form');
 const submit = document.querySelector('#feedback-submit');
 const status = document.querySelector('#feedback-status');
 const mensagem = document.querySelector('#feedback-mensagem');
+const nome = document.querySelector('#feedback-nome');
+let storage = null;
+try {
+  storage = NexusStorage.criarStorage(
+    window.NexusStorageAdapter || NexusStorage.criarAdapterLocalStorage()
+  );
+} catch (erro) {
+  status.textContent = 'Não foi possível acessar o armazenamento deste navegador.';
+  status.className = 'form-status is-error';
+  submit.disabled = true;
+}
 
-form.addEventListener('submit', (event) => {
+form.addEventListener('submit', async (event) => {
   event.preventDefault();
+  if (!storage) {
+    return;
+  }
 
   if (!form.reportValidity()) {
     status.textContent = 'Escreva uma mensagem com pelo menos 10 caracteres.';
@@ -34,17 +48,26 @@ form.addEventListener('submit', (event) => {
 
   mensagem.removeAttribute('aria-invalid');
   submit.disabled = true;
-  submit.textContent = 'Enviando...';
-  status.textContent = 'Enviando seu feedback...';
+  submit.textContent = 'Salvando...';
+  status.textContent = 'Salvando neste navegador...';
   status.className = 'form-status';
 
-  window.setTimeout(() => {
+  try {
+    await storage.create({ nome: nome.value, mensagem: mensagem.value });
     form.reset();
+    status.textContent = 'Ideia salva neste navegador. Ela ainda não é enviada à chapa.';
+    status.className = 'form-status is-success';
+  } catch (erro) {
+    const invalido = erro && erro.name === 'ValidationError';
+    status.textContent = invalido ? erro.message : 'Não foi possível salvar neste navegador. Tente de novo.';
+    status.className = 'form-status is-error';
+    if (invalido) {
+      mensagem.setAttribute('aria-invalid', 'true');
+    }
+  } finally {
     submit.disabled = false;
     submit.textContent = 'Enviar feedback';
-    status.textContent = 'Feedback recebido! Valeu por contribuir.';
-    status.className = 'form-status is-success';
-  }, 700);
+  }
 });
 
 mensagem.addEventListener('input', () => {
