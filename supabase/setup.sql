@@ -1,8 +1,7 @@
--- Rode no SQL Editor do Supabase DEPOIS de criar o usuário administrador.
--- Antes de rodar, substitua COLOQUE_O_UUID_DO_ADMIN pelo UUID real
--- (Authentication → Users → copiar UUID). Se não substituir, o casting falha
--- de propósito: melhor falhar fechado do que liberar o painel para qualquer conta.
--- NUNCA use service_role no navegador: a proteção é esta RLS.
+-- Rode no SQL Editor do Supabase DEPOIS de criar os usuários administradores.
+-- A RLS consulta public.nexus_admins: para adicionar outro admin no futuro,
+-- basta inserir o UUID dele nessa tabela. NUNCA use service_role no navegador:
+-- a proteção é esta RLS.
 
 create table if not exists public.ideias (
   id uuid primary key default gen_random_uuid(),
@@ -39,6 +38,38 @@ create trigger nexus_ideias_timestamps
   before insert or update on public.ideias
   for each row execute function public.nexus_ideias_timestamps();
 
+-- Lista de contas autorizadas no painel.
+create table if not exists public.nexus_admins (
+  user_id uuid primary key,
+  criado_em timestamptz not null default now()
+);
+
+alter table public.nexus_admins enable row level security;
+revoke all on public.nexus_admins from public, anon, authenticated;
+
+-- SECURITY DEFINER lê a lista sem precisar liberar a tabela para os usuários.
+create or replace function public.nexus_eh_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public, pg_temp
+as $$
+  select exists (
+    select 1
+    from public.nexus_admins
+    where user_id = auth.uid()
+  );
+$$;
+
+revoke all on function public.nexus_eh_admin() from public;
+grant execute on function public.nexus_eh_admin() to authenticated;
+
+insert into public.nexus_admins (user_id) values
+  ('af91e074-f8a4-44c9-85ca-d7dc8768ba96'::uuid),
+  ('3e91826d-fdac-4629-8d45-83ce9a0b144e'::uuid)
+on conflict (user_id) do nothing;
+
 alter table public.ideias enable row level security;
 
 -- Defesa em profundidade: a proteção real é o RLS abaixo.
@@ -53,20 +84,19 @@ create policy "anon_insert_ideias" on public.ideias
   for insert to anon
   with check (char_length(nome) <= 80 and char_length(mensagem) between 10 and 2000);
 
--- SOMENTE a conta do administrador lê, edita e exclui.
--- Mesmo que outra conta seja criada, ela não acessa nada.
+-- Somente as contas listadas em nexus_admins leem, editam e excluem.
 drop policy if exists "admin_select_ideias" on public.ideias;
 create policy "admin_select_ideias" on public.ideias
   for select to authenticated
-  using (auth.uid() = 'COLOQUE_O_UUID_DO_ADMIN'::uuid);
+  using (public.nexus_eh_admin());
 
 drop policy if exists "admin_update_ideias" on public.ideias;
 create policy "admin_update_ideias" on public.ideias
   for update to authenticated
-  using (auth.uid() = 'COLOQUE_O_UUID_DO_ADMIN'::uuid)
-  with check (auth.uid() = 'COLOQUE_O_UUID_DO_ADMIN'::uuid);
+  using (public.nexus_eh_admin())
+  with check (public.nexus_eh_admin());
 
 drop policy if exists "admin_delete_ideias" on public.ideias;
 create policy "admin_delete_ideias" on public.ideias
   for delete to authenticated
-  using (auth.uid() = 'COLOQUE_O_UUID_DO_ADMIN'::uuid);
+  using (public.nexus_eh_admin());

@@ -13,32 +13,34 @@ visitante envia sem login, e **somente a conta de administrador autorizada** ace
 2. **New project** → nome `Nexus-Chapa`, senha do banco forte, região próxima (ex.: São Paulo).
 3. Guarde a senha do banco em local seguro; ela não vai para o site.
 
-## 2. Criar sua conta de administrador **antes** do SQL
+## 2. Criar as contas de administrador **antes** do SQL
 
 1. **Authentication → Providers** → confirme que **Email** está habilitado.
 2. Ainda em **Email**, desligue **“Allow new users to sign up”**. Assim ninguém
    cria outra conta que tentaria acessar o painel.
 3. Se **Confirm email** estiver ligado, desligue ou confirme o link enviado.
-4. **Authentication → Users → Add user** → e-mail e senha fortes → marque **Auto Confirm**.
-5. Nessa mesma tela, copie o **UUID** do usuário criado. Ele é obrigatório no passo 3.
+4. **Authentication → Users → Add user → Create new user** → e-mail e senha fortes
+   → marque **Auto Confirm**. Repita para cada administrador.
+5. Copie o **UUID** de cada usuário criado. Eles entram no passo 3.
 
-Essa será a conta usada em `admin.html`.
+Essas serão as contas usadas em `admin.html`.
 
 ## 3. Criar tabela e regras de acesso
 
 1. No projeto, abra **SQL Editor → New query**.
-2. Abra `supabase/setup.sql` e substitua **todas** as ocorrências de
-   `COLOQUE_O_UUID_DO_ADMIN` pelo UUID copiado no passo 2.
-3. Clique em **Run**. Se der erro de UUID, você esqueceu de substituir o placeholder —
-   isso falha de propósito: melhor falhar fechado do que liberar o painel.
-4. Confira em **Table Editor** que a tabela `public.ideias` existe.
-5. Confira em **Authentication → Policies** que existem quatro policies:
+2. Abra `supabase/setup.sql`, confira se os UUIDs do `insert into public.nexus_admins`
+   são os copiados no passo 2 e clique em **Run**.
+3. Confira em **Table Editor** que existem `public.ideias` e `public.nexus_admins`.
+4. Confira em **Authentication → Policies** que existem quatro policies:
    `anon_insert_ideias`, `admin_select_ideias`, `admin_update_ideias`, `admin_delete_ideias`.
-6. Confira também que há um trigger `nexus_ideias_timestamps`: as datas vêm do
+5. Confira também que há um trigger `nexus_ideias_timestamps`: as datas vêm do
    servidor, não do relógio de quem envia.
+6. Para adicionar outro administrador depois, rode apenas:
+   `insert into public.nexus_admins (user_id) values ('UUID_DO_NOVO_ADMIN'::uuid);`
 
 Regra resultante: visitante consegue **inserir**, mas não lê, edita nem exclui.
-Entre os usuários autenticados, **só o UUID autorizado** lê, edita e exclui.
+Entre os usuários autenticados, **só os UUIDs listados em `nexus_admins`** leem,
+editam e excluem.
 
 ## 4. Pegar URL e chave
 
@@ -83,7 +85,7 @@ O arquivo versionado fica vazio. Assim nenhuma chave entra no repositório.
 2. Espere o workflow ficar verde.
 3. Abra o site com **Ctrl+F5**: o texto do formulário muda para “Sua ideia é enviada à chapa NEXUS”.
 4. Envie uma ideia em uma janela privada.
-5. Abra `admin.html`, entre com a conta do passo 2, confira a ideia, edite, exclua e exporte CSV.
+5. Abra `admin.html`, entre com cada conta do passo 2, confira a ideia, edite, exclua e exporte CSV.
 6. Recarregue `admin.html`: pede login de novo. Isso é esperado — a sessão fica só
    em memória, sem token em `sessionStorage`, porque `github.io` compartilha origem
    com outros projetos publicados.
@@ -106,7 +108,7 @@ O arquivo versionado fica vazio. Assim nenhuma chave entra no repositório.
 | Texto continua “Protótipo local” | cache ou `config.js` vazio no ar | Ctrl+F5; conferir se o workflow rodou com os Secrets |
 | Erro de CORS no console | origem não liberada | Supabase → Project Settings → API → CORS → incluir `https://valentinohoehne.github.io` |
 | “E-mail ou senha incorretos” | usuário não confirmado | confirmar o e-mail ou criar usuário com Auto Confirm |
-| “Você não tem permissão para isso” | UUID do admin diferente do placeholder | rodar `setup.sql` de novo com o UUID correto |
+| “Você não tem permissão para isso” | e-mail não está em `nexus_admins` | inserir o UUID do usuário nessa tabela |
 | Visitante consegue ler ideias | RLS errada | parar o deploy e revisar `supabase/setup.sql` |
 | Workflow falha “Chave de servico recusada” | foi colada `service_role`/`sb_secret_` | repetir o passo 4 com a Publishable key |
 | Workflow falha “SUPABASE_URL ausente” | segredo não criado | repetir o passo 5 com os nomes exatos |

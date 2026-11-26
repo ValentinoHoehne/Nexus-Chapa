@@ -50,6 +50,13 @@ test('workflow testa antes de gerar config e versiona o script no HTML', () => {
   assert.ok(geracao < versionamento && versionamento < upload, 'config versionado antes do upload');
 });
 
+test('setup.sql usa tabela de administradores sem placeholder', () => {
+  const sql = fs.readFileSync(path.join(raiz, 'supabase', 'setup.sql'), 'utf8');
+  assert.doesNotMatch(sql, /COLOQUE_O_UUID_DO_ADMIN/);
+  assert.match(sql, /create table if not exists public\.nexus_admins/);
+  assert.match(sql, /public\.nexus_eh_admin\(\)/);
+});
+
 test('scripts carregam na ordem config -> storage -> supabase -> pagina', () => {
   for (const nome of ['index.html', 'admin.html']) {
     const html = fs.readFileSync(path.join(raiz, nome), 'utf8');
