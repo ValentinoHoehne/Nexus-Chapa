@@ -48,7 +48,7 @@
   --wash-a: linear-gradient(180deg, var(--band), var(--bg));
   --wash-b: linear-gradient(180deg, var(--bg), var(--surface));
 
-  --step-hero: clamp(3.8rem, 15vw, 9.5rem);
+  --step-hero: clamp(3.8rem, 15vw, 8.5rem);
   --radius-control: 2px;
   --header-h: 64px;
   --shell: 860px;
@@ -321,7 +321,7 @@ h3 {
   letter-spacing: 0.055em;
   text-indent: 0.055em;
   color: var(--text);
-  background: linear-gradient(96deg, var(--text) 0%, var(--accent-soft) 52%, var(--text) 100%);
+  background: linear-gradient(96deg, var(--text) 0%, var(--accent-soft) 48%, #A8B49E 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
