@@ -130,10 +130,13 @@ edita, exclui e exporta CSV.
 
 Testes (sem rede): `node --test tests/*.test.js`.
 
-## 📌 Ainda provisório
+## 🎓 Projeto escolar
 
-- Concorrência entre abas: a última escrita vence.
-- Proteção contra inundação de envios anônimos (rate limit/CAPTCHA) fica para depois.
+> [!NOTE]
+> Este é um **projeto escolar** da chapa NEXUS, feito para aproximar a chapa da
+> comunidade escolar. O site apresenta as propostas e recebe ideias sem pedir
+> cadastro; o painel é restrito aos administradores da chapa. Não é um produto
+> comercial.
 
 ---
 

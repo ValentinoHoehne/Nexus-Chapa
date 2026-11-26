@@ -86,6 +86,13 @@ test('nota de privacidade aparece so no modo Supabase e reusa contato existente'
   assert.ok(telefones.includes(daNota[1]), ' WhatsApp da nota nao existe nos contatos do site');
 });
 
+test('README troca o aviso provisorio por projeto escolar', () => {
+  const md = fs.readFileSync(path.join(raiz, 'README.md'), 'utf8');
+  assert.doesNotMatch(md, /Ainda provisório/i);
+  assert.match(md, /## 🎓 Projeto escolar/);
+  assert.match(md, /> \[!NOTE\][\s\S]*?projeto escolar[\s\S]*?chapa NEXUS/);
+});
+
 test('painel atualiza a lista sozinho com a aba aberta', () => {
   const js = fs.readFileSync(path.join(raiz, 'componentes', 'admin.js'), 'utf8');
   const intervalo = js.match(/window\.setInterval\(\(\) => \{[\s\S]*?\}, 10000\)/);
