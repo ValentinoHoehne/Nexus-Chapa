@@ -92,7 +92,26 @@ test('painel atualiza a lista sozinho com a aba aberta', () => {
   assert.ok(intervalo, 'painel precisa consultar a lista a cada 10 segundos');
   assert.match(intervalo[0], /document\.visibilityState === 'visible'/);
   assert.match(intervalo[0], /!painel\.hidden/);
-  assert.match(intervalo[0], /carregar\(\)/);
+  assert.match(intervalo[0], /carregar\(null, true\)/);
+});
+
+test('polling nao sobrepoe requisicoes, silencia erro e preserva foco', () => {
+  const js = fs.readFileSync(path.join(raiz, 'componentes', 'admin.js'), 'utf8');
+  assert.match(js, /let carregando = false/);
+  assert.match(js, /if \(carregando\) \{\s*return;\s*\}/);
+  assert.match(js, /async function carregar\(anuncio, silencioso = false\)/);
+  assert.match(js, /window\.setInterval\(\(\) => \{[\s\S]*?carregar\(null, true\)/);
+  assert.match(js, /visibilitychange[\s\S]*?carregar\(null, true\)/);
+  assert.match(js, /function desenhar\(\) \{[\s\S]*?document\.activeElement/);
+  assert.match(js, /if \(!sessaoExpirada\(erro\) && !silencioso\) \{[\s\S]*?mostrarErro\(erro\)/);
+});
+
+test('roteiro manual distingue atualizacao local e Supabase', () => {
+  const md = fs.readFileSync(path.join(raiz, 'tests', 'manual.md'), 'utf8');
+  const corte = md.indexOf('## Modo Supabase');
+  assert.ok(corte > 0, 'secao Supabase ausente');
+  assert.match(md.slice(0, corte), /imediatamente via evento `storage`/);
+  assert.match(md.slice(corte), /até 10 segundos/);
 });
 
 test('login do painel nao pede autocomplete de credenciais salvas', () => {

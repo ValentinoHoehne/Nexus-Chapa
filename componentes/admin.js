@@ -177,6 +177,13 @@
   }
 
   function desenhar() {
+    const ativo = document.activeElement;
+    const idFoco = ativo && linhas.contains(ativo) ? ativo.dataset.id : null;
+    const classeFoco = ativo && ativo.classList.contains('admin-editar')
+      ? 'admin-editar'
+      : ativo && ativo.classList.contains('admin-excluir')
+        ? 'admin-excluir'
+        : null;
     const fragmento = document.createDocumentFragment();
     for (const registro of visiveis) {
       fragmento.appendChild(criarLinha(registro));
@@ -185,14 +192,31 @@
     tabelaWrap.hidden = visiveis.length === 0;
     vazio.hidden = todos.length !== 0;
     semResultados.hidden = !(todos.length > 0 && visiveis.length === 0);
+    if (idFoco && classeFoco) {
+      for (const botao of linhas.querySelectorAll('button')) {
+        if (botao.dataset.id === idFoco && botao.classList.contains(classeFoco)) {
+          botao.focus();
+          break;
+        }
+      }
+    }
   }
 
   let sequencia = 0;
+  let carregando = false;
+  let anuncioPendente = null;
 
-  async function carregar(anuncio) {
+  async function carregar(anuncio, silencioso = false) {
     if (modoSupabase && !window.NexusStorageSupabase.sessaoAtiva()) {
       return;
     }
+    if (anuncio) {
+      anuncioPendente = anuncio;
+    }
+    if (carregando) {
+      return;
+    }
+    carregando = true;
     const atual = ++sequencia;
     try {
       const itens = await storage.list();
@@ -202,16 +226,20 @@
       todos = itens;
       aplicarFiltro();
       desenhar();
-      atualizarContagem(anuncio);
+      const anuncioFinal = anuncioPendente || anuncio;
+      anuncioPendente = null;
+      atualizarContagem(anuncioFinal);
       limparErro();
     } catch (erro) {
       if (atual !== sequencia) {
         return;
       }
-      if (!sessaoExpirada(erro)) {
+      if (!sessaoExpirada(erro) && !silencioso) {
         contagem.textContent = 'Ideias indisponíveis.';
         mostrarErro(erro);
       }
+    } finally {
+      carregando = false;
     }
   }
 
@@ -250,6 +278,7 @@
     }
     idEmEdicao = null;
     idParaExcluir = null;
+    anuncioPendente = null;
     sequencia += 1;
     todos = [];
     visiveis = [];
@@ -434,13 +463,14 @@
     // sessionStorage não dispara evento entre abas; atualiza ao voltar à aba.
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible' && !painel.hidden) {
-        carregar();
+        carregar(null, true);
       }
     });
     // Enquanto a aba estiver visível e o painel aberto, busca novas ideias a cada 10s.
+    // Falha de rede no automático não apaga o resultado da última ação do usuário.
     window.setInterval(() => {
       if (document.visibilityState === 'visible' && !painel.hidden) {
-        carregar();
+        carregar(null, true);
       }
     }, 10000);
   } else {
