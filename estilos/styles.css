@@ -321,7 +321,7 @@ h3 {
   letter-spacing: 0.055em;
   text-indent: 0.055em;
   color: var(--text);
-  background: linear-gradient(96deg, var(--text) 0%, var(--accent-soft) 48%, #A8B49E 100%);
+  background: linear-gradient(96deg, var(--text) 0%, var(--accent-soft) 52%, var(--text) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

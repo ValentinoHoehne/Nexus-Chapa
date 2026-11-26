@@ -24,7 +24,7 @@ Tudo é HTML e CSS puro. O único JavaScript simula o envio do feedback e fecha 
 ## ✨ O que tem
 
 - Cabeçalho fixo com navegação por âncoras e menu mobile via `<details>`.
-- Hero assimétrico, tipografia-first: **NEXUS** domina em degradê lilás→musgo, o slogan oficial vem logo abaixo e atalhos numerados convidam às três prioridades.
+- Hero assimétrico, tipografia-first: **NEXUS** domina em degradê claro→lilás→claro, o slogan oficial vem logo abaixo e atalhos numerados convidam às três prioridades.
 - Fundo do hero com lavanda e musgo mais presentes; lua maior, órbita mais nítida e campo de pontos sutil, sem galhos, folhas ou flores.
 - Hero sem as duas barrinhas com pontos abaixo do botão; o motivo de conexão permanece apenas na chamada final.
 - Botão principal em degradê lilás→branco-quente (`#D9D0DF`), com contraste alto sobre o fundo escuro.
