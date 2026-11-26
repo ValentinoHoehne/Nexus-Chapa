@@ -28,8 +28,8 @@
   --surface: #1C1725;
   --band: #15121C;
   --text: #D9D0DF;
-  --text-secondary: #C7BED2;
-  --text-muted: #B3A9BC;
+  --text-secondary: #D0C8D9;
+  --text-muted: #C2B8CC;
   --accent: #684C78;
   --accent-soft: #B99BCB;
   --accent-deep: #3B2C45;
@@ -42,8 +42,8 @@
 
   /* Superfícies em camadas: lilás de luar, sem brilho e sem verde em excesso */
   --wash-hero:
-    radial-gradient(58% 76% at 84% 10%, rgba(185, 155, 203, 0.34), transparent 70%),
-    radial-gradient(52% 62% at 6% 96%, rgba(104, 116, 94, 0.2), transparent 72%),
+    radial-gradient(58% 76% at 84% 10%, rgba(185, 155, 203, 0.27), transparent 70%),
+    radial-gradient(52% 62% at 6% 96%, rgba(104, 116, 94, 0.15), transparent 72%),
     linear-gradient(158deg, var(--surface) 0%, var(--bg) 72%);
   --wash-a: linear-gradient(180deg, var(--band), var(--bg));
   --wash-b: linear-gradient(180deg, var(--bg), var(--surface));
@@ -356,9 +356,9 @@ h3 {
   right: calc(var(--lua-right) - 30px);
   width: calc(var(--lua) + 60px);
   height: calc(var(--lua) + 60px);
-  border: 1px solid rgba(185, 155, 203, 0.34);
+  border: 1px solid rgba(185, 155, 203, 0.26);
   border-radius: 50%;
-  box-shadow: 0 0 0 10px rgba(104, 116, 94, 0.07);
+  box-shadow: 0 0 0 10px rgba(104, 116, 94, 0.05);
   z-index: 0;
 }
 
@@ -366,11 +366,11 @@ h3 {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(185, 155, 203, 0.42) 1.2px, transparent 1.8px);
+  background-image: radial-gradient(circle, rgba(185, 155, 203, 0.36) 1.2px, transparent 1.8px);
   background-size: 44px 44px;
   -webkit-mask-image: linear-gradient(90deg, transparent 42%, #000 100%);
   mask-image: linear-gradient(90deg, transparent 42%, #000 100%);
-  opacity: 0.42;
+  opacity: 0.32;
   z-index: 0;
 }
 
@@ -385,7 +385,7 @@ h3 {
   right: var(--lua-right);
   width: var(--lua);
   height: auto;
-  opacity: 0.95;
+  opacity: 0.82;
 }
 
 .kicker {
@@ -1288,7 +1288,7 @@ h3 {
   }
 
   .hero__decor-moon {
-    opacity: 0.7;
+    opacity: 0.62;
   }
 
   .hero__decor::before,
