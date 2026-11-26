@@ -83,15 +83,16 @@ O arquivo versionado fica vazio. Assim nenhuma chave entra no repositório.
 
 1. Faça um push em `main` (ou rode **Actions → Deploy Pages (Supabase) → Run workflow**).
 2. Espere o workflow ficar verde.
-3. Abra o site com **Ctrl+F5**: o texto do formulário muda para “Sua ideia é enviada à chapa NEXUS”.
-4. Envie uma ideia em uma janela privada.
-5. Abra `admin.html`, entre com cada conta do passo 2, confira a ideia, edite, exclua e exporte CSV.
-6. Recarregue `admin.html`: pede login de novo. Isso é esperado — a sessão fica só
+3. Abra o site com **Ctrl+F5**: o texto do formulário muda para “Sua ideia é enviada à chapa NEXUS” e aparece uma nota curta dizendo onde a mensagem fica e como pedir correção ou exclusão pelo WhatsApp da chapa.
+4. O campo oculto do formulário descarta envios automáticos simples: se ele for preenchido por um bot, a página responde como se tivesse enviado, mas **nenhum POST é feito** e nada aparece no painel.
+5. Envie uma ideia em uma janela privada.
+6. Abra `admin.html`, entre com cada conta do passo 2, confira a ideia, edite, exclua e exporte CSV.
+7. Recarregue `admin.html`: pede login de novo. Isso é esperado — a sessão fica só
    em memória, sem token em `sessionStorage`, porque `github.io` compartilha origem
    com outros projetos publicados.
-7. Crie outra conta com signup desligado (ou use outro usuário de teste) e confirme
+8. Crie outra conta com signup desligado (ou use outro usuário de teste) e confirme
    que ela não consegue ver as ideias: a RLS barra.
-8. Em janela privada, confirme que o visitante sem login não consegue listar nada.
+9. Em janela privada, confirme que o visitante sem login não consegue listar nada.
 
 ## Sessão do painel
 

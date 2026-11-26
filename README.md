@@ -39,7 +39,7 @@ Tudo é HTML e CSS puro, sem frameworks. O JavaScript envia o feedback ao Supaba
 - Tipografia ampliada e com contraste mais alto: corpo em 16 px, títulos maiores e textos secundários mais claros.
 - Respiro extra entre o cabeçalho fixo e o início do conteúdo.
 - Ao atualizar a página, a rolagem volta ao topo em vez de manter a posição anterior.
-- Layout responsivo testado em 320, 390, 768 e 1188 px, sem overflow horizontal.
+- Layout responsivo testado em 320, 390, 768, 1188 e 1440 px, sem overflow horizontal.
 
 ## 🚀 Ver online
 

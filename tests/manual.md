@@ -15,7 +15,7 @@ Use sempre a mesma origem: `http://127.0.0.1:8765/`.
 10. Fechar e reabrir o navegador (mesma origem): os registros continuam lá.
 11. Preencher o campo oculto `#feedback-site` pelo DevTools e enviar: aparece a
     resposta de sucesso, mas nenhum registro novo é criado.
-12. Conferir larguras 320, 390, 768 e 1188 px: sem overflow horizontal.
+12. Conferir larguras 320, 390, 768, 1188 e 1440 px: sem overflow horizontal.
 13. Teclado: Tab alcança busca, exportar e botões da tabela; Esc fecha os diálogos.
 14. Console do navegador sem erros.
 
@@ -42,4 +42,4 @@ Use a origem pública `https://valentinohoehne.github.io/Nexus-Chapa/`.
     o refresh renova a sessão automaticamente.
 11. Em janela privada, confirmar que o visitante não consegue listar nada (RLS) e
     que outra conta autenticada também não (RLS consulta `public.nexus_admins`).
-12. Conferir 320, 390, 768 e 1188 px e console sem erros.
+12. Conferir 320, 390, 768, 1188 e 1440 px e console sem erros.

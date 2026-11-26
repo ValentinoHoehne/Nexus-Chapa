@@ -67,6 +67,8 @@ test('formulario tem honeypot que bloqueia antes do create', () => {
   const bloqueio = js.indexOf('site.value.trim()');
   const envio = js.indexOf('storage.create');
   assert.ok(bloqueio >= 0 && bloqueio < envio, 'honeypot precisa barrar antes de enviar');
+  assert.match(js, /storage\.create\(\{\s*nome:\s*nome\.value,\s*mensagem:\s*mensagem\.value\s*\}\)/);
+  assert.doesNotMatch(js, /storage\.create\([^)]*\bsite\b/, 'valor do honeypot nao pode ir ao banco');
 });
 
 test('nota de privacidade aparece so no modo Supabase e reusa contato existente', () => {
@@ -76,7 +78,9 @@ test('nota de privacidade aparece so no modo Supabase e reusa contato existente'
   assert.match(js, /privacidade\.hidden = !modoSupabase/);
   const trecho = html.match(/<p class="form-note form-note--privacidade"[\s\S]*?<\/p>/);
   assert.ok(trecho, 'nota de privacidade ausente');
-  const telefones = [...html.matchAll(/https:\/\/wa\.me\/(\d+)/g)].map((m) => m[1]);
+  const contato = html.match(/<dl class="contact-list">[\s\S]*?<\/dl>/);
+  assert.ok(contato, 'lista de contatos ausente');
+  const telefones = [...contato[0].matchAll(/https:\/\/wa\.me\/(\d+)/g)].map((m) => m[1]);
   const daNota = trecho[0].match(/https:\/\/wa\.me\/(\d+)/);
   assert.ok(daNota, 'nota de privacidade precisa linkar para um WhatsApp');
   assert.ok(telefones.includes(daNota[1]), ' WhatsApp da nota nao existe nos contatos do site');
