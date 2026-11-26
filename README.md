@@ -34,7 +34,7 @@ Tudo é HTML e CSS puro, sem frameworks. O JavaScript envia o feedback ao Supaba
 - Barra de 6px entre as seções em degradê roxo→lilás→musgo, com um pequeno ponto claro de conexão.
 - Símbolo lunar da Lucide (ISC) e motivo de conexão original: só retas e pontos.
 - Formulário de feedback com validação real: envio ao Supabase quando configurado, ou mensagens salvas **apenas neste navegador** no modo local.
-- Painel restrito por login do Supabase Auth no modo real; visitantes só enviam e somente a conta autorizada pela RLS lê, edita e apaga.
+- Painel restrito por login do Supabase Auth no modo real; visitantes só enviam e somente as contas autorizadas pela RLS lêem, editam e apagam.
 - Fontes Cinzel e Spectral hospedadas no próprio projeto.
 - Tipografia ampliada e com contraste mais alto: corpo em 16 px, títulos maiores e textos secundários mais claros.
 - Respiro extra entre o cabeçalho fixo e o início do conteúdo.
@@ -124,14 +124,14 @@ edita, exclui e exporta CSV.
 - **Origem importa no modo local:** `file://`, `localhost` e `github.io` são
   armazenamentos diferentes.
 - **Modo real:** com `config.js` preenchido pela Actions, o envio vai ao Supabase;
-  visitantes só inserem e o painel pede login. A sessão do admin fica só em memória,
-  então recarregar a página pede login de novo. Ver [GUIA-SUPABASE.md](GUIA-SUPABASE.md).
+  visitantes só inserem e o painel pede login. Várias contas podem ser autorizadas
+  em `public.nexus_admins`. A sessão do admin fica só em memória, então recarregar
+  a página pede login de novo. Ver [GUIA-SUPABASE.md](GUIA-SUPABASE.md).
 
 Testes (sem rede): `node --test tests/*.test.js`.
 
 ## 📌 Ainda provisório
 
-- Ativar o envio real depende da criação do projeto Supabase e dos Secrets.
 - Concorrência entre abas: a última escrita vence.
 - Proteção contra inundação de envios anônimos (rate limit/CAPTCHA) fica para depois.
 
