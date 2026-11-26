@@ -34,6 +34,7 @@ Tudo é HTML e CSS puro. O JavaScript salva o feedback no navegador, gerencia o 
 - Barra de 6px entre as seções em degradê roxo→lilás→musgo, com um pequeno ponto claro de conexão.
 - Símbolo lunar da Lucide (ISC) e motivo de conexão original: só retas e pontos.
 - Formulário de feedback com validação real e mensagens salvas **apenas neste navegador**.
+- Link discreto abaixo do formulário abre o painel na mesma origem e mostra quantas ideias estão salvas.
 - Fontes Cinzel e Spectral hospedadas no próprio projeto.
 - Tipografia ampliada e com contraste mais alto: corpo em 16 px, títulos maiores e textos secundários mais claros.
 - Respiro extra entre o cabeçalho fixo e o início do conteúdo.

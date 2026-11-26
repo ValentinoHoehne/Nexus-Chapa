@@ -22,6 +22,7 @@ const submit = document.querySelector('#feedback-submit');
 const status = document.querySelector('#feedback-status');
 const mensagem = document.querySelector('#feedback-mensagem');
 const nome = document.querySelector('#feedback-nome');
+const linkAdmin = document.querySelector('#feedback-admin');
 let storage = null;
 try {
   storage = NexusStorage.criarStorage(
@@ -32,6 +33,22 @@ try {
   status.className = 'form-status is-error';
   submit.disabled = true;
 }
+
+async function atualizarLinkAdmin() {
+  if (!storage || !linkAdmin) {
+    return;
+  }
+  try {
+    const total = (await storage.list()).length;
+    linkAdmin.textContent = total === 0
+      ? 'Ver ideias salvas neste navegador →'
+      : `Ver ${total} ${total === 1 ? 'ideia salva' : 'ideias salvas'} neste navegador →`;
+  } catch (erro) {
+    // Mantém o texto padrão quando o armazenamento está indisponível.
+  }
+}
+
+atualizarLinkAdmin();
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -55,6 +72,7 @@ form.addEventListener('submit', async (event) => {
   try {
     await storage.create({ nome: nome.value, mensagem: mensagem.value });
     form.reset();
+    atualizarLinkAdmin();
     status.textContent = 'Ideia salva neste navegador. Ela ainda não é enviada à chapa.';
     status.className = 'form-status is-success';
   } catch (erro) {
