@@ -14,12 +14,13 @@ dependências ou etapa de instalação.
 npx serve . -l 8765
 ```
 
-Acesse `http://127.0.0.1:8765/`.
+Acesse `http://127.0.0.1:8765/html/`.
 
 ## Padrões
 
 - HTML, CSS e JavaScript separados. Sem frameworks.
-- `index.html` precisa continuar na raiz para o GitHub Pages.
+- Os HTML ficam em `html/`; o workflow copia `index.html` e `admin.html` para a
+  raiz do artefato publicado, mantendo o endereço do Pages.
 - Mantenha o slogan oficial: **Conectando ideias e construindo mudanças.**
 - Não invente contatos, membros, números ou promessas.
 - Respeite a identidade Lunar Forest e as fontes Cinzel/Spectral.

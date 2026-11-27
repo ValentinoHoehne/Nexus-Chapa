@@ -23,7 +23,7 @@ visitante envia sem login, e **somente a conta de administrador autorizada** ace
    → marque **Auto Confirm**. Repita para cada administrador.
 5. Copie o **UUID** de cada usuário criado. Eles entram no passo 3.
 
-Essas serão as contas usadas em `admin.html`.
+Essas serão as contas usadas em `html/admin.html` (e no painel publicado).
 
 ## 3. Criar tabela e regras de acesso
 
@@ -75,7 +75,8 @@ O arquivo `.github/workflows/deploy.yml`:
 1. roda `node --test tests/*.test.js` **antes** de gerar a config;
 2. valida a URL (`https://....supabase.co`) e recusa chaves de servidor;
 3. gera `componentes/config.js` com os segredos;
-4. grava `componentes/config.js?v=<commit>` nos dois HTML para evitar cache antigo.
+4. copia `html/index.html` e `html/admin.html` para a raiz do artefato, já com
+   `componentes/config.js?v=<commit>`, para evitar cache antigo e manter o endereço.
 
 O arquivo versionado fica vazio. Assim nenhuma chave entra no repositório.
 
@@ -86,8 +87,8 @@ O arquivo versionado fica vazio. Assim nenhuma chave entra no repositório.
 3. Abra o site com **Ctrl+F5**: o texto do formulário muda para “Sua ideia é enviada à chapa NEXUS” e aparece uma nota curta dizendo onde a mensagem fica e como pedir correção ou exclusão pelo WhatsApp da chapa.
 4. O campo oculto do formulário descarta envios automáticos simples: se ele for preenchido por um bot, a página responde como se tivesse enviado, mas **nenhum POST é feito** e nada aparece no painel.
 5. Envie uma ideia em uma janela privada.
-6. Abra `admin.html`, entre com cada conta do passo 2, confira a ideia, edite, exclua e exporte CSV.
-7. Recarregue `admin.html`: pede login de novo. Isso é esperado — a sessão fica só
+6. Abra o painel publicado em `https://valentinohoehne.github.io/Nexus-Chapa/admin.html`, entre com cada conta do passo 2, confira a ideia, edite, exclua e exporte CSV.
+7. Recarregue o painel: pede login de novo. Isso é esperado — a sessão fica só
    em memória, sem token em `sessionStorage`, porque `github.io` compartilha origem
    com outros projetos publicados.
 8. Crie outra conta com signup desligado (ou use outro usuário de teste) e confirme
@@ -117,5 +118,5 @@ O arquivo versionado fica vazio. Assim nenhuma chave entra no repositório.
 ## Modo local continua disponível
 
 Com `componentes/config.js` vazio (estado versionado), o site segue funcionando
-como protótipo local em `http://127.0.0.1:8765/`. Isso permite desenvolver e
+como protótipo local em `http://127.0.0.1:8765/html/`. Isso permite desenvolver e
 rodar os testes sem rede: `node --test tests/*.test.js`.

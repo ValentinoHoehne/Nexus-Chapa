@@ -48,6 +48,53 @@ test('workflow testa antes de gerar config e versiona o script no HTML', () => {
   const upload = fluxo.indexOf('upload-pages-artifact');
   assert.ok(teste >= 0 && teste < geracao, 'testes precisam rodar antes de gerar config.js');
   assert.ok(geracao < versionamento && versionamento < upload, 'config versionado antes do upload');
+  assert.match(fluxo, /mkdir -p site/);
+  assert.match(fluxo, /cp html\/index\.html html\/admin\.html site\//);
+  assert.match(fluxo, /cp -R assets estilos componentes site\//);
+  assert.match(fluxo, /path: site/);
+  assert.match(fluxo, /componentes\/config\.js\?v=\$VERSAO/);
+});
+
+test('deploy reescreve os HTML para a raiz sem caminhos quebrados', () => {
+  const sha = 'abc123';
+  const reescrever = (conteudo) =>
+    conteudo
+      .replaceAll('../componentes/config.js', `componentes/config.js?v=${sha}`)
+      .replaceAll('../componentes/', 'componentes/')
+      .replaceAll('../estilos/', 'estilos/')
+      .replaceAll('../assets/', 'assets/');
+
+  for (const nome of ['index.html', 'admin.html']) {
+    const gerado = reescrever(fs.readFileSync(path.join(raiz, 'html', nome), 'utf8'));
+    assert.doesNotMatch(gerado, /\.\.\//, nome + ': sobrou ../ no artefato');
+    assert.match(gerado, new RegExp(`componentes/config\\.js\\?v=${sha}`), nome + ': config sem versionar');
+
+    const referencias = [...gerado.matchAll(/(?:href|src)="([^"]+)"/g)].map((m) => m[1]);
+    for (const referencia of referencias) {
+      if (referencia.startsWith('#') || /^https?:/.test(referencia) || referencia.startsWith('data:')) {
+        continue;
+      }
+      const alvo = referencia.split(/[?#]/)[0];
+      const existe = ['index.html', 'admin.html'].includes(alvo)
+        ? fs.existsSync(path.join(raiz, 'html', alvo))
+        : fs.existsSync(path.join(raiz, alvo));
+      assert.ok(existe, `${nome}: ${alvo} nao existe na raiz do artefato`);
+    }
+  }
+});
+
+test('README aponta para imagem que existe apos a mudanca para docs/', () => {
+  const md = fs.readFileSync(path.join(raiz, 'docs', 'README.md'), 'utf8');
+  const imagens = [...md.matchAll(/!\[[^\]]*\]\(([^)]+)\)/g)]
+    .map((m) => m[1])
+    .filter((destino) => !/^https?:/.test(destino));
+  assert.ok(imagens.length > 0, 'README precisa ter imagem local');
+  for (const destino of imagens) {
+    assert.ok(
+      fs.existsSync(path.resolve(path.join(raiz, 'docs'), destino)),
+      'imagem do README nao existe: ' + destino
+    );
+  }
 });
 
 test('setup.sql usa tabela de administradores sem placeholder', () => {
@@ -58,7 +105,7 @@ test('setup.sql usa tabela de administradores sem placeholder', () => {
 });
 
 test('formulario tem honeypot que bloqueia antes do create', () => {
-  const html = fs.readFileSync(path.join(raiz, 'index.html'), 'utf8');
+  const html = fs.readFileSync(path.join(raiz, 'html', 'index.html'), 'utf8');
   const js = fs.readFileSync(path.join(raiz, 'componentes', 'script.js'), 'utf8');
   const css = fs.readFileSync(path.join(raiz, 'estilos', 'styles.css'), 'utf8');
   assert.match(html, /class="honeypot" aria-hidden="true"/);
@@ -72,7 +119,7 @@ test('formulario tem honeypot que bloqueia antes do create', () => {
 });
 
 test('nota de privacidade aparece so no modo Supabase e reusa contato existente', () => {
-  const html = fs.readFileSync(path.join(raiz, 'index.html'), 'utf8');
+  const html = fs.readFileSync(path.join(raiz, 'html', 'index.html'), 'utf8');
   const js = fs.readFileSync(path.join(raiz, 'componentes', 'script.js'), 'utf8');
   assert.match(html, /id="feedback-privacidade" hidden/);
   assert.match(js, /privacidade\.hidden = !modoSupabase/);
@@ -87,7 +134,7 @@ test('nota de privacidade aparece so no modo Supabase e reusa contato existente'
 });
 
 test('README troca o aviso provisorio por projeto escolar', () => {
-  const md = fs.readFileSync(path.join(raiz, 'README.md'), 'utf8');
+  const md = fs.readFileSync(path.join(raiz, 'docs', 'README.md'), 'utf8');
   assert.doesNotMatch(md, /Ainda provisório/i);
   assert.match(md, /## 🎓 Projeto escolar/);
   assert.match(md, /> \[!NOTE\][\s\S]*?projeto escolar[\s\S]*?chapa NEXUS/);
@@ -122,7 +169,7 @@ test('roteiro manual distingue atualizacao local e Supabase', () => {
 });
 
 test('login do painel nao pede autocomplete de credenciais salvas', () => {
-  const html = fs.readFileSync(path.join(raiz, 'admin.html'), 'utf8');
+  const html = fs.readFileSync(path.join(raiz, 'html', 'admin.html'), 'utf8');
   const email = html.match(/<input id="admin-login-email"[^>]*>/);
   const senha = html.match(/<input id="admin-login-senha"[^>]*>/);
   assert.ok(email && senha, 'campos de login ausentes');
@@ -134,14 +181,21 @@ test('login do painel nao pede autocomplete de credenciais salvas', () => {
 
 test('scripts carregam na ordem config -> storage -> supabase -> pagina', () => {
   for (const nome of ['index.html', 'admin.html']) {
-    const html = fs.readFileSync(path.join(raiz, nome), 'utf8');
+    const html = fs.readFileSync(path.join(raiz, 'html', nome), 'utf8');
     const posicoes = [
-      'componentes/config.js',
-      'componentes/storage.js',
-      'componentes/supabase.js',
-      nome === 'index.html' ? 'componentes/script.js' : 'componentes/admin.js'
+      '../componentes/config.js',
+      '../componentes/storage.js',
+      '../componentes/supabase.js',
+      nome === 'index.html' ? '../componentes/script.js' : '../componentes/admin.js'
     ].map((trecho) => html.indexOf(`<script src="${trecho}"`));
     assert.ok(posicoes.every((posicao) => posicao >= 0), nome + ': script ausente');
     assert.deepEqual(posicoes, [...posicoes].sort((a, b) => a - b), nome + ': ordem errada');
+  }
+  for (const nome of ['index.html', 'admin.html']) {
+    assert.doesNotMatch(
+      fs.readFileSync(path.join(raiz, 'html', nome), 'utf8'),
+      /(<link|<img|<script)[^>]+(href|src)="(?!\.\.\/|#|https:|data:)/,
+      nome + ': recursos locais precisam do prefixo ../ dentro de html/'
+    );
   }
 });

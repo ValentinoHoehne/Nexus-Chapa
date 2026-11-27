@@ -51,15 +51,24 @@ jobs:
           fi
           printf 'window.NEXUS_CONFIG = %s;\n' "$(jq -n --arg url "$SUPABASE_URL" --arg key "$SUPABASE_KEY" '{supabaseUrl:$url, supabaseKey:$key}')" > componentes/config.js
 
-      - name: Versionar config.js no HTML
+      - name: Montar artefato do Pages e versionar config.js
         env:
           VERSAO: ${{ github.sha }}
         run: |
-          sed -i "s#componentes/config.js#componentes/config.js?v=$VERSAO#g" index.html admin.html
+          set -eu
+          mkdir -p site
+          cp html/index.html html/admin.html site/
+          cp -R assets estilos componentes site/
+          sed -i \
+            -e "s#\.\./componentes/config\.js#componentes/config.js?v=$VERSAO#g" \
+            -e "s#\.\./componentes/#componentes/#g" \
+            -e "s#\.\./estilos/#estilos/#g" \
+            -e "s#\.\./assets/#assets/#g" \
+            site/index.html site/admin.html
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: site
 
       - id: deploy
         uses: actions/deploy-pages@v4

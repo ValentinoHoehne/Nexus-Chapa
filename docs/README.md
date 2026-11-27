@@ -1,6 +1,6 @@
 # NEXUS — Grêmio estudantil
 
-![Prévia do NEXUS](assets/nexus-og.png)
+![Prévia do NEXUS](../assets/nexus-og.png)
 
 > **Conectando ideias e construindo mudanças.** Chapa NEXUS · grêmio estudantil.
 
@@ -46,18 +46,27 @@ Tudo é HTML e CSS puro, sem frameworks. O JavaScript envia o feedback ao Supaba
 **[valentinohoehne.github.io/Nexus-Chapa](https://valentinohoehne.github.io/Nexus-Chapa/)**
 
 O deploy é automático a cada push em `main`. Com os Secrets do Supabase configurados,
-o GitHub Actions gera `componentes/config.js` e publica no Pages. Sem eles, o site
+o GitHub Actions gera `componentes/config.js`, copia `html/*.html` para a raiz do
+artefato e publica no Pages — por isso o endereço continua o mesmo. Sem eles, o site
 continua no modo local. Passo a passo em [GUIA-SUPABASE.md](GUIA-SUPABASE.md).
 
 ## 🧱 Estrutura
 
 ```text
-Nexus-Chapa/
-├── index.html                 # entrada do site (precisa ficar na raiz para o Pages)
-├── admin.html                 # painel das ideias (fora do menu do site)
-├── README.md
-├── GUIA-SUPABASE.md           # como criar projeto, tabela, usuário e Secrets
-├── .github/workflows/deploy.yml # injeta a config pública e publica no Pages
+Chapa Nexus/
+├── .gitattributes             # quebras de linha LF (precisa ficar na raiz)
+├── .gitignore                 # arquivos locais ignorados (precisa ficar na raiz)
+├── git/LEIA-ME.md             # por que esses dois arquivos não podem ser movidos
+├── .github/workflows/deploy.yml # injeta a config, publica o HTML e sobe ao Pages
+├── html/
+│   ├── index.html             # entrada do site (copiada para a raiz no deploy)
+│   └── admin.html             # painel das ideias (fora do menu do site)
+├── docs/
+│   ├── README.md              # esta página (GitHub a reconhece como README)
+│   ├── GUIA-SUPABASE.md       # como criar projeto, tabela, usuário e Secrets
+│   └── CONTRIBUTING.md        # como contribuir
+├── referencias/
+│   └── captura-site.png       # print local, ignorado pelo Git
 ├── componentes/
 │   ├── config.js              # vazio no repo; preenchido no deploy pela Actions
 │   ├── storage.js             # camada de dados e contrato do adapter
@@ -84,7 +93,7 @@ Nexus-Chapa/
 
 Não há build, dependências nem etapa de instalação.
 
-**Opção mais simples:** abra `index.html` no navegador.
+**Opção mais simples:** abra `html/index.html` no navegador.
 
 **Ou com um servidor local estático:**
 
@@ -92,14 +101,14 @@ Não há build, dependências nem etapa de instalação.
 npx serve . -l 8765
 ```
 
-Depois acesse `http://127.0.0.1:8765/` — a mesma origem usada no roteiro manual.
+Depois acesse `http://127.0.0.1:8765/html/` — a mesma origem usada no roteiro manual.
 
 ## 🎨 Onde mexer
 
 | O que você quer mudar | Onde fica |
 | --- | --- |
 | Cores, tipografia e espaçamentos | `estilos/styles.css` (variáveis no `:root`) |
-| Textos e seções | `index.html` |
+| Textos e seções | `html/index.html` |
 | Barra entre seções | `estilos/styles.css` — `.doc > section::after` |
 | Destaque das três prioridades | `estilos/styles.css` — `.priority` |
 | Símbolos decorativos | `assets/icones/` (Lua Lucide ISC + conexão original) |
@@ -117,7 +126,7 @@ Depois acesse `http://127.0.0.1:8765/` — a mesma origem usada no roteiro manua
 ## 🗂 Modo local e modo Supabase
 
 Sem configuração (estado versionado), o formulário salva cada ideia no
-`localStorage` e o painel em `http://127.0.0.1:8765/admin.html` lista, busca,
+`localStorage` e o painel em `http://127.0.0.1:8765/html/admin.html` lista, busca,
 edita, exclui e exporta CSV.
 
 - **Não é envio:** no modo local a mensagem fica só no navegador/dispositivo usado.

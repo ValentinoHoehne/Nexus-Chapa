@@ -1,11 +1,11 @@
 # Roteiro manual — protótipo local de feedback
 
-Use sempre a mesma origem: `http://127.0.0.1:8765/`.
+Use sempre a mesma origem: `http://127.0.0.1:8765/html/`.
 
-1. Abrir `index.html`, preencher o nome e uma mensagem com 10+ caracteres.
+1. Abrir `html/index.html`, preencher o nome e uma mensagem com 10+ caracteres.
 2. Enviar com mensagem curta: deve aparecer erro, `aria-invalid="true"` e o botão não trava.
 3. Enviar com mensagem válida: "Salvando..." → "Ideia salva neste navegador...".
-4. Abrir `admin.html` na **mesma origem**: o registro aparece com data, nome e mensagem.
+4. Abrir `html/admin.html` na **mesma origem**: o registro aparece com data, nome e mensagem.
 5. Buscar por parte do nome e da mensagem, inclusive com acento (ex.: "acolhimento" encontra "Acolhimento").
 6. Editar: alterar nome/mensagem, salvar, conferir a data de criação preservada.
 7. Excluir: confirmar cancela e confirma remove; o foco volta para um controle do painel.
@@ -23,7 +23,7 @@ Use sempre a mesma origem: `http://127.0.0.1:8765/`.
 Para limpar os dados de propósito: DevTools → Application → Local Storage →
 apagar a chave `nexus:feedback:v1`.
 
-## Modo Supabase (depois de seguir o GUIA-SUPABASE.md)
+## Modo Supabase (depois de seguir o docs/GUIA-SUPABASE.md)
 
 Use a origem pública `https://valentinohoehne.github.io/Nexus-Chapa/`.
 
@@ -31,7 +31,7 @@ Use a origem pública `https://valentinohoehne.github.io/Nexus-Chapa/`.
 2. Enviar sem nome e com mensagem de 10+ caracteres: deve aparecer "Ideia enviada. Obrigado!".
 3. Preencher `#feedback-site` pelo DevTools e enviar: resposta de sucesso, mas sem
    POST e sem registro novo no painel.
-4. Abrir `admin.html` sem login: aparece a tela "Área restrita", sem tabela de ideias.
+4. Abrir o painel publicado (`.../admin.html`) sem login: aparece a tela "Área restrita", sem tabela de ideias.
 5. Entrar com a conta da chapa: a ideia enviada no passo 2 aparece na tabela.
 6. Com o painel aberto e a aba visível, enviar uma ideia nova pelo site: a lista
    atualiza sozinha em até 10 segundos, sem dar F5. Se houver erro de rede nessa
